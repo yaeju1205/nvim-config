@@ -156,21 +156,4 @@ pack.add({
 			vim.cmd.colorscheme("sakura")
 		end,
 	},
-
-    {
-        src = "github.com/vyfor/cord.nvim",
-        boot = {
-            "cord",
-            editor = {
-                client = "nvim",
-                tooltip = "Text Editor",
-            },
-            display = {
-                theme = "atom",
-            },
-            idle = {
-                enabled = false,
-            },
-        }
-    }
 })
