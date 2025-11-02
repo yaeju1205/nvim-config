@@ -31,6 +31,18 @@ pack.add({
 		src = "github.com/kimpure/cmdhistory.nvim",
 		boot = {
 			"cmdhistory",
+			mute = {
+				"q",
+				"qa",
+				"wq",
+				"wqa",
+				"wincmd h",
+				"wincmd j",
+				"wincmd k",
+				"wincmd l",
+				"w",
+				"wa",
+			},
 		},
 	},
 
@@ -144,4 +156,25 @@ pack.add({
 			vim.cmd.colorscheme("sakura")
 		end,
 	},
+
+    {
+        src = "github.com/vyfor/cord.nvim",
+        build = function()
+            vim.cmd("Cord update")
+        end,
+        boot = {
+            "cord",
+            editor = {
+                client = "nvim",
+                tooltip = "Text Editor",
+            },
+            display = {
+                theme = "catppuccin",
+                flavor = "dark",
+            },
+            idle = {
+                enabled = false,
+            },
+        }
+    }
 })
