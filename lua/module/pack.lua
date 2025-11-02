@@ -59,7 +59,6 @@ local not_load_plugins = {}
 --- @class Pack.AddSpec
 --- @field src string
 --- @field version? string
---- @field build? fun()
 --- @field boot? fun() | { [1]: string, [string]: any }
 --- @field event string? Load plugin event
 
@@ -69,7 +68,6 @@ function pack.add(specs)
 	for i = 1, #specs do
 		local spec = specs[i]
 		local name = match(spec.src, "^.+/(.+)$")
-		local build = spec.build
         local boot = spec.boot
 		local event = spec.event
 
@@ -80,10 +78,6 @@ function pack.add(specs)
 				once = true,
 				callback = function()
 					vim.cmd("packadd " .. name)
-                    
-                    if build then
-                        build()
-                    end
 
 					if boot then
 						if type(boot) == "table" then

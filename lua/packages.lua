@@ -159,9 +159,6 @@ pack.add({
 
     {
         src = "github.com/vyfor/cord.nvim",
-        build = function()
-            vim.cmd("Cord update")
-        end,
         boot = {
             "cord",
             editor = {
@@ -169,8 +166,7 @@ pack.add({
                 tooltip = "Text Editor",
             },
             display = {
-                theme = "catppuccin",
-                flavor = "dark",
+                theme = "atom",
             },
             idle = {
                 enabled = false,
