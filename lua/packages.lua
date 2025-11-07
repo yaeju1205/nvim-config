@@ -64,6 +64,7 @@ pack.add({
 				height = 0.9,
 				width = 0.9,
 			},
+			auto_close = true,
 		},
 		keymaps = {
 			["<C-\\>"] = {
@@ -171,7 +172,7 @@ pack.add({
 		},
 		disable = true,
 	},
-    {
+	{
 		src = "github.com/kimpure/gitcolors.nvim",
 		boot = {
 			"gitcolors",
