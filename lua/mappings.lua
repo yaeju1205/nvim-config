@@ -19,5 +19,3 @@ keymap.set("n", "<C-Left>", "b", { noremap = true, silent = true })
 
 keymap.set("v", "<", "<gv", { noremap = true, silent = true, })
 keymap.set("v", ">", ">gv", { noremap = true, silent = true, })
-
-keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })

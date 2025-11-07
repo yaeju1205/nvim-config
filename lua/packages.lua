@@ -57,8 +57,8 @@ pack.add({
 		src = "github.com/numToStr/FTerm.nvim",
 		boot = {
 			"FTerm",
-            ft = "FTerm",
-            cmd = vim.o.shell,
+			ft = "FTerm",
+			cmd = vim.o.shell,
 			border = "none",
 			dimensions = {
 				height = 0.9,
@@ -68,7 +68,7 @@ pack.add({
 		keymaps = {
 			["<C-\\>"] = {
 				mode = { "n", "t" },
-                cmd = '<CMD>lua require("FTerm").toggle()<CR>',
+				cmd = '<CMD>lua require("FTerm").toggle()<CR>',
 			},
 		},
 	},
@@ -169,8 +169,9 @@ pack.add({
 		boot = {
 			"transparent",
 		},
+		disable = true,
 	},
-	{
+    {
 		src = "github.com/kimpure/gitcolors.nvim",
 		boot = {
 			"gitcolors",
@@ -181,6 +182,16 @@ pack.add({
 		src = "github.com/kimpure/sakura.nvim",
 		boot = function()
 			vim.cmd.colorscheme("sakura")
+		end,
+		disable = true,
+	},
+	{
+		src = "github.com/navarasu/onedark.nvim",
+		boot = function()
+			require("onedark").setup({
+				style = "dark",
+			})
+			require("onedark").load()
 		end,
 	},
 })
