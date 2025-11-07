@@ -13,35 +13,35 @@ local insert = table.insert
 --- @param version string? package version
 --- @return Pack.Spec
 local function get_package(src, name, version)
-	src = sub(src, 6) == "https:" and src or "https://" .. src
-	name = name or match(src, "^.+/(.+)$")
-	local path = opt_path .. name
+src = sub(src, 6) == "https:" and src or "https://" .. src
+name = name or match(src, "^.+/(.+)$")
+local path = opt_path .. name
 
-	if vim.fn.isdirectory(path) < 1 then
-		local cmd = { "git", "clone", "--depth=1" }
+if vim.fn.isdirectory(path) < 1 then
+    local cmd = { "git", "clone", "--depth=1" }
 
-		if version then
-			insert(cmd, "--branch")
-			insert(cmd, version)
-		end
+    if version then
+        insert(cmd, "--branch")
+        insert(cmd, version)
+    end
 
-		insert(cmd, src)
-		insert(cmd, path)
+    insert(cmd, src)
+    insert(cmd, path)
 
-		local sys = vim.fn.system(cmd)
+    local sys = vim.fn.system(cmd)
 
-		if vim.v.shell_error ~= 0 then
-			vim.notify("Faild to clone " .. name, vim.log.levels.ERROR)
-			vim.notify("Error: " .. sys, vim.log.levels.ERROR)
-			vim.fn.getchar()
-		end
-	end
+    if vim.v.shell_error ~= 0 then
+        vim.notify("Faild to clone " .. name, vim.log.levels.ERROR)
+        vim.notify("Error: " .. sys, vim.log.levels.ERROR)
+        vim.fn.getchar()
+    end
+end
 
-	return {
-		src = src,
-		name = name,
-		version = version,
-	}
+return {
+    src = src,
+    name = name,
+    version = version,
+}
 end
 
 --- @class Pack.Spec
@@ -95,9 +95,21 @@ function pack.add(specs)
 								if type(boot) == "table" then
 									local boot_name = boot[1]
 									boot[1] = nil
-									require(boot_name).setup(boot)
+
+									local boot_success, boot_message = pcall(function(n, o)
+										require(n).setup(o)
+									end, boot_name, boot)
+
+									if not boot_success then
+										--- @diagnostic disable-next-line
+										vim.notify(boot_message, vim.log.levels.ERROR)
+									end
 								else
-									boot()
+									local boot_success, boot_message = pcall(boot)
+
+									if not boot_success then
+										vim.notify(boot_message, vim.log.levels.ERROR)
+									end
 								end
 
 								if keymaps then
@@ -127,9 +139,21 @@ function pack.add(specs)
 						if type(boot) == "table" then
 							local boot_name = boot[1]
 							boot[1] = nil
-							require(boot_name).setup(boot)
+
+							local boot_success, boot_message = pcall(function(n, o)
+								require(n).setup(o)
+							end, boot_name, boot)
+
+							if not boot_success then
+								--- @diagnostic disable-next-line
+								vim.notify(boot_message, vim.log.levels.ERROR)
+							end
 						else
-							boot()
+							local boot_success, boot_message = pcall(boot)
+
+							if not boot_success then
+								vim.notify(boot_message, vim.log.levels.ERROR)
+							end
 						end
 
 						if keymaps then

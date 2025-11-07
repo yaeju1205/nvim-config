@@ -272,6 +272,16 @@ pack.add({
 	},
 
 	{
+		src = "github.com/kevinhwang91/promise-async",
+	},
+	{
+		src = "github.com/kevinhwang91/nvim-ufo",
+        boot = {
+            "ufo"
+        },
+	},
+
+	{
 		src = "github.com/2KAbhishek/nerdy.nvim",
 		boot = {
 			"nerdy",
