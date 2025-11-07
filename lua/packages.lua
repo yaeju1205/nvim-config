@@ -133,6 +133,16 @@ pack.add({
 	},
 
 	{
+		src = "github.com/vyfor/cord.nvim",
+		boot = {
+			"cord",
+			boot = function()
+				vim.cmd("Cord update")
+			end,
+		},
+	},
+
+	{
 		src = "github.com/2KAbhishek/nerdy.nvim",
 		boot = {
 			"nerdy",
@@ -192,7 +202,8 @@ pack.add({
 			require("onedark").setup({
 				style = "dark",
 			})
-			require("onedark").load()
+
+			vim.cmd("colorscheme onedark")
 		end,
 	},
 })
