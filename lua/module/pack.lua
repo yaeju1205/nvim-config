@@ -56,10 +56,16 @@ local plugs = {}
 --- @type table<string, integer>
 local not_load_plugins = {}
 
+--- @class Pack.AddSpec.Keymap
+--- @field mode? string | string[]
+--- @field cmd fun() | string
+--- @field opts? any
+
 --- @class Pack.AddSpec
 --- @field src string
 --- @field version? string
 --- @field boot? fun() | { [1]: string, [string]: any }
+--- @field keymaps? table<string, Pack.AddSpec.Keymap>
 --- @field disable? boolean
 --- @field event string? Load plugin event
 
@@ -73,6 +79,7 @@ function pack.add(specs)
 			local name = match(spec.src, "^.+/(.+)$")
 			local boot = spec.boot
 			local event = spec.event
+			local keymaps = spec.keymaps
 
 			plugs[name] = get_package(spec.src, name, spec.version)
 
@@ -90,6 +97,17 @@ function pack.add(specs)
 							else
 								boot()
 							end
+
+							if keymaps then
+								for map, parm in pairs(keymaps) do
+									vim.keymap.set(
+										parm.mode or "n",
+										map,
+										parm.cmd,
+										parm.opts or { noremap = true, silent = true }
+									)
+								end
+							end
 						end
 
 						vim.api.nvim_del_autocmd(not_load_plugins[name])
@@ -105,6 +123,12 @@ function pack.add(specs)
 						require(boot_name).setup(boot)
 					else
 						boot()
+					end
+				end
+
+				if keymaps then
+					for map, parm in pairs(keymaps) do
+						vim.keymap.set(parm.mode or "n", map, parm.cmd, parm.opts or { noremap = true, silent = true })
 					end
 				end
 			end
@@ -183,7 +207,7 @@ vim.api.nvim_create_user_command("Pack", function(opts)
 		pack.del(target)
 	elseif command == "add" then
 		pack.add({ src = target })
-    else
+	else
 		vim.notify("Unknown argument: " .. command, vim.log.levels.WARN)
 	end
 end, {
@@ -195,9 +219,9 @@ end, {
 		if #args == 2 then
 			return { "update", "add", "del", "open" }
 		elseif #args >= 3 then
-            if args[2] == "update" or args[2] == "del" then
-                return utils.hashmap(plugs)
-            end
+			if args[2] == "update" or args[2] == "del" then
+				return utils.hashmap(plugs)
+			end
 		end
 
 		return {}

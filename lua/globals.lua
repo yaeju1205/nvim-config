@@ -1,3 +1,4 @@
+_G.source = require("module.source")
 _G.utils = require("module.utils")
 _G.pack = require("module.pack")
 

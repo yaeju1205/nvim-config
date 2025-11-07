@@ -54,6 +54,26 @@ pack.add({
 	},
 
 	{
+		src = "github.com/numToStr/FTerm.nvim",
+		boot = {
+			"FTerm",
+            ft = "FTerm",
+            cmd = vim.o.shell,
+			border = "none",
+			dimensions = {
+				height = 0.9,
+				width = 0.9,
+			},
+		},
+		keymaps = {
+			["<C-\\>"] = {
+				mode = { "n", "t" },
+                cmd = '<CMD>lua require("FTerm").toggle()<CR>',
+			},
+		},
+	},
+
+	{
 		src = "github.com/lewis6991/gitsigns.nvim",
 		boot = {
 			"gitsigns",
