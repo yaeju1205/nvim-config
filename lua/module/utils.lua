@@ -1,3 +1,4 @@
+local api = vim.api
 local fn = vim.fn
 
 --- @class Utils
@@ -12,26 +13,26 @@ end
 --- @param object table<string, any>
 --- @return string[]
 function utils.hashmap(object)
-    local map = {}
+	local map = {}
 
-    for k, _ in pairs(object) do
-        table.insert(map, k)
-    end
+	for k, _ in pairs(object) do
+		table.insert(map, k)
+	end
 
-    return map
+	return map
 end
 
 --- @param index number
 --- @param tab any[]
 --- @return any[]
 function utils.select_table(index, tab)
-    local res = {}
+	local res = {}
 
-    for i=0, #tab - index do
-        res[i + 1] = tab[index + i]
-    end
+	for i = 0, #tab - index do
+		res[i + 1] = tab[index + i]
+	end
 
-    return res
+	return res
 end
 
 local is_windows = utils.has("win32") or utils.has("win64")
@@ -44,6 +45,15 @@ fs.path_prefix = is_windows and "\\" or "/"
 --- @param path string target file path
 --- @param using_windows? boolean using windows remove option (defulat: false)
 function fs.remove_file(path, using_windows)
+	for _, bufnr in ipairs(api.nvim_list_bufs()) do
+		if api.nvim_buf_is_loaded(bufnr) then
+			local buf_path = api.nvim_buf_get_name(bufnr)
+			if buf_path == path then
+				api.nvim_buf_delete(bufnr, { force = true })
+			end
+		end
+	end
+
 	if is_windows and using_windows then
 		if fn.isdirectory(path) == 1 then
 			fn.system({ "cmd", "/c", "rmdir", "/s", "/q", path })
