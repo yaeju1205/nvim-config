@@ -373,7 +373,7 @@ pack.add({
 								return
 							end
 
-							utils.fs.remove_file(node.absolute_path)
+							utils.fs.remove_file(node.absolute_path, true)
 
 							api.tree.reload()
 						else
@@ -383,7 +383,7 @@ pack.add({
 								return
 							end
 
-							utils.fs.remove_file(node.absolute_path)
+							utils.fs.remove_file(node.absolute_path, true)
 
 							api.tree.reload()
 						end
