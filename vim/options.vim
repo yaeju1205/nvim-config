@@ -40,6 +40,9 @@ set foldlevel=99
 set foldlevelstart=99
 set foldenable
 
+set list
+set listchars=tab:│\ ,space:\ ,trail:\ 
+
 if has("win32") || has("win64")
     set shell=C:\\windows\\system32\\windowspowershell\\v1.0\\powershell.exe
     set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
