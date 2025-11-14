@@ -196,13 +196,15 @@ end
 --- Delete packages
 --- @param names string[] target package names
 function pack.del(names)
+    local plugins = pack.get(names)
+
 	for i = 1, #names do
 		local name = names[i]
-		local path = opt_path .. name
+
 		plugs[name] = nil
-		package.loaded[name] = nil
-		fn.delete(path, "rf")
-		if event_autocmds[name] then
+        utils.runtime.unload(plugins[i].path)
+
+        if event_autocmds[name] then
 			local events = event_autocmds[name]
 
 			for j = 1, #events do
@@ -224,7 +226,9 @@ function pack.get(names)
 
         if plugs[name] then
 		    insert(result, plugs[name])
-		end
+        else
+            vim.notify("Not found package: " .. name, vim.log.levels.WARN)
+        end
 	end
 
 	return result
@@ -239,17 +243,12 @@ end
 --- Update packages
 --- @param names string[] target package names
 function pack.update(names)
-	for i = 1, #names do
-		local name = names[i]
+	local plugins = pack.get(names)
 
-		if plugs[name] then
-			local plugin = pack.get({ name })
+    pack.del(names)
 
-			pack.del({ name })
-			pack.add(plugin)
-		else
-			vim.notify("Faild to update " .. name .. ", package not found", vim.log.levels.WARN)
-		end
+    for i = 1, #names do
+		pack.add(plugins[i])
 	end
 end
 

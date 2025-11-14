@@ -175,6 +175,35 @@ function runtime.append(directory)
 	vim.loader.enable()
 end
 
+--- Unload directory
+function runtime.unload(directory)
+	directory = fn.expand(directory)
+
+	--- @type string[]
+	local files = fn.glob(directory .. "/**/*.lua", false, true)
+
+	for i = 1, #files do
+		local module_path = files[i]:sub(#directory + 2)
+
+		local lua_root = module_path:match("^lua/") or module_path:match("^lua\\")
+
+		if lua_root then
+            module_path = module_path:sub(5)
+
+			local filename = module_path:match("([^/\\]+)$")
+			local mod
+
+			if filename == "init.lua" then
+				mod = module_path:sub(1, -10):gsub("/", "."):gsub("\\", ".")
+			else
+				mod = module_path:sub(1, -5):gsub("/", "."):gsub("\\", ".")
+			end
+
+			package.loaded[mod] = nil
+        end
+	end
+end
+
 --- Reload directory
 --- @param directory string The target directory
 function runtime.reload(directory)
