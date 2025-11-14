@@ -4,22 +4,22 @@ local fn = vim.fn
 --- @class Utils
 local utils = {}
 
---- @param feat string the feature name, like 'unix'
+--- @param feat string The feature name
 --- @return boolean
 function utils.has(feat)
 	return fn.has(feat) == 1
 end
 
---- @param path string the target path
+--- @param directory string The target directory
 --- @return boolean
-function utils.isdirectory(path)
-    return fn.isdirectory(path) < 1
+function utils.isdirectory(directory)
+	return fn.isdirectory(directory) ~= 0
 end
 
---- @param feat string
+--- @param feat string The feature name
 --- @return boolean
 function utils.exists(feat)
-    return fn.exists(feat) ~= 0
+	return fn.exists(feat) ~= 0
 end
 
 local is_windows = utils.has("win32") or utils.has("win64")
@@ -28,10 +28,10 @@ local is_windows = utils.has("win32") or utils.has("win64")
 local fs = {}
 fs.path_prefix = is_windows and "\\" or "/"
 
---- Remove directory
+--- Remove file
 --- @param path string target file path
 --- @param using_windows? boolean using windows remove option (defulat: false)
-function fs.remove_file(path, using_windows)
+function fs.remove(path, using_windows)
 	for _, bufnr in ipairs(api.nvim_list_bufs()) do
 		if api.nvim_buf_is_loaded(bufnr) then
 			local buf_path = api.nvim_buf_get_name(bufnr)
@@ -42,13 +42,30 @@ function fs.remove_file(path, using_windows)
 	end
 
 	if is_windows and using_windows then
-		if fn.isdirectory(path) == 1 then
+		if utils.isdirectory(path) then
 			fn.system({ "cmd", "/c", "rmdir", "/s", "/q", path })
 		else
 			fn.system({ "cmd", "/c", "del", "/f", "/q", path })
 		end
 	else
 		fn.delete(path, "rf")
+	end
+end
+
+--- Copy file
+--- @param src string
+--- @param dst string
+function fs.copy(src, dst)
+	fn.mkdir(dst, "p")
+
+	if is_windows then
+		fn.system({
+			"cmd",
+			"/C",
+			([[xcopy "%s" "%s" /E /I /Y /Q]]):format(src, dst),
+		})
+	else
+		fn.system({ "cp", "-r", src .. "/.", dst })
 	end
 end
 
@@ -107,8 +124,6 @@ function lua.is_array(array)
 	return true
 end
 
-
---- inspect
 --- @param value any target value
 --- @return string
 function lua.tostring(value)
@@ -139,36 +154,66 @@ end
 --- @param value any
 --- @return number?
 function lua.table_find(tab, value)
-    for i=1, #tab do
-        if value == tab[i] then
-            return i
-        end
-    end
+	for i = 1, #tab do
+		if value == tab[i] then
+			return i
+		end
+	end
 end
 
 --- @class Utils.Lua
 utils.lua = lua
 
---- @class Utils.Lsp
-local lsp = {}
+--- @class Utils.Runtime
+local runtime = {}
 
---- @return lsp.ClientCapabilities
-function lsp.create_capabilities()
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	capabilities.textDocument.foldingRange = {
-		dynamicRegistration = false,
-		lineFoldingOnly = true,
-	}
-	capabilities.workspace = {
-		didChangeWatchedFiles = {
-			dynamicRegistration = true,
-		},
-	}
-
-	return capabilities
+--- Add runtime path
+--- @param directory string
+function runtime.append(directory)
+	vim.opt.runtimepath:append(directory)
+	vim.loader.reset()
+	vim.loader.enable()
 end
 
---- @class Utils.Lsp
-utils.lsp = lsp
+--- Reload directory
+--- @param directory string The target directory
+function runtime.reload(directory)
+	directory = fn.expand(directory)
+
+	--- @type string[]
+	local files = fn.glob(directory .. "/**/*.lua", false, true)
+
+    --- @type string[]
+    local plugs = {}
+
+	for i = 1, #files do
+		local module_path = files[i]:sub(#directory + 2)
+
+		local lua_root = module_path:match("^lua/") or module_path:match("^lua\\")
+
+		if lua_root then
+            module_path = module_path:sub(5)
+
+			local filename = module_path:match("([^/\\]+)$")
+			local mod
+
+			if filename == "init.lua" then
+				mod = module_path:sub(1, -10):gsub("/", "."):gsub("\\", ".")
+			else
+				mod = module_path:sub(1, -5):gsub("/", "."):gsub("\\", ".")
+			end
+
+			package.loaded[mod] = nil
+		    table.insert(plugs, filename)
+        end
+	end
+
+    for i=1, #plugs do
+        vim.cmd("source " .. files[i])
+    end
+end
+
+--- @class Utils.Runtime
+utils.runtime = runtime
 
 return utils

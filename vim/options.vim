@@ -33,24 +33,16 @@ set noswapfile
 set signcolumn=yes
 set background=dark
 
-set fillchars=eob:\ ,fold:\ ,foldopen:,foldsep:\ ,foldclose:
-
-set foldcolumn=0
-set foldlevel=99
-set foldlevelstart=99
-set foldenable
-
 set list
 set listchars=tab:│\ ,space:\ ,trail:\ 
 
 if exists("g:neovide")
     set guifont=KawaiiMono
-
-    if isdirectory(expand("~/dev"))
-        autocmd VimEnter * cd ~/dev
-    else
-        autocmd VimEnter * cd ~
-    endif
+    set mouse=a
+    set termguicolors
+    set mousemodel=extend
+    
+    autocmd VimEnter * execute 'cd ' . fnameescape(stdpath('config'))
 endif
 
 if has("win32") || has("win64")
