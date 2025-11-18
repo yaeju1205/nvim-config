@@ -663,16 +663,8 @@ pack.add({
 			"gitcolors",
 		},
 	},
-	{ src = "github.com/rktjmp/lush.nvim" },
 	{
-		src = "github.com/kimpure/sakura.nvim",
-		boot = function()
-			vim.cmd.colorscheme("sakura")
-		end,
-		disable = true,
-	},
-	{
-		src = "github.com/neanias/everforest-nvim",
-		boot = "colorscheme everforest",
+		src = "github.com/navarasu/onedark.nvim",
+		boot = "colorscheme onedark",
 	},
 })
