@@ -36,6 +36,8 @@ set background=dark
 set list
 set listchars=tab:│\ ,space:\ ,trail:\ 
 
+set pumheight=10
+
 if exists("g:neovide")
     set guifont=KawaiiMono
     set mouse=a

@@ -42,7 +42,7 @@ pack.add({
 					filtering_context_budget = 3,
 					confirm_resolve_timeout = 80,
 					async_budget = 1,
-					max_view_entries = 25,
+					max_view_entries = 50,
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<Down>"] = cmp.mapping(function(fallback)
