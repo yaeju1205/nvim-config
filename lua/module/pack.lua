@@ -19,7 +19,7 @@ local function clone_package(spec)
 	local name = spec.name
 	local version = spec.version
 
-	src = sub(src, 6) == "https:" and src or "https://" .. src
+	src = sub(src, 1, 6) == "https:" and src or "https://" .. src
 
 	local path = opt_path .. name
 
@@ -77,13 +77,15 @@ end
 --- @class Pack.Spec.Dir: Pack.Spec.Base
 --- @field dir string -- Plugin dir (local)
 
---- @alias Pack.Spec.Boot Pack.Spec.Boot.Config | Pack.Spec.Boot.CallBack
+--- @alias Pack.Spec.Boot Pack.Spec.Boot.Config | Pack.Spec.Boot.CallBack | Pack.Spec.Boot.Command
 
 --- @class Pack.Spec.Boot.Config
 --- @field [1] string -- Plugin name
 --- @field [string] any -- Plugin options
 
 --- @alias Pack.Spec.Boot.CallBack fun()
+
+--- @alias Pack.Spec.Boot.Command string
 
 --- @class Pack.Spec.Keymap
 --- @field mode? string | string[]
@@ -145,11 +147,19 @@ function pack.add(specs)
 					end
 
 					boot[1] = module_name
-				else
-					--- @diagnostic disable-next-line
+				elseif type(boot) == "function" then
 					local success, message = pcall(boot)
 
 					if not success then
+						vim.notify(message, vim.log.levels.ERROR)
+					end
+                else
+					local success, message = pcall(function()
+                        vim.cmd(boot)
+					end)
+
+					if not success then
+                        --- @diagnostic disable-next-line
 						vim.notify(message, vim.log.levels.ERROR)
 					end
 				end
@@ -220,6 +230,7 @@ function pack.del(names)
 		local name = names[i]
 
 		utils.packages.unload(plugins[name].path)
+        utils.fs.remove(plugins[name].path)
 
 		plugins[name] = nil
 
@@ -262,8 +273,9 @@ end
 --- Update plugins
 --- @param names string[] target plugin names
 function pack.update(names)
+    local specs = pack.get(names)
 	pack.del(names)
-	pack.add(pack.get(names))
+	pack.add(specs)
 end
 
 --- Reload plugins

@@ -669,16 +669,5 @@ pack.add({
 		boot = function()
 			vim.cmd.colorscheme("sakura")
 		end,
-		disable = true,
-	},
-	{
-		src = "github.com/navarasu/onedark.nvim",
-		boot = function()
-			require("onedark").setup({
-				style = "dark",
-			})
-
-			vim.cmd("colorscheme onedark")
-		end,
 	},
 })
