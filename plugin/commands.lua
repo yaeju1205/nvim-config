@@ -1,5 +1,4 @@
 local api = vim.api
-local fn = vim.fn
 local create_user_command = api.nvim_create_user_command
 
 create_user_command("Pack", function(opts)
