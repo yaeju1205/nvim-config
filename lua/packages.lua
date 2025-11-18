@@ -672,7 +672,7 @@ pack.add({
 		disable = true,
 	},
 	{
-		src = "github.com/Mofiqul/vscode.nvim",
-		boot = "colorscheme vscode",
+		src = "github.com/neanias/everforest-nvim",
+		boot = "colorscheme everforest",
 	},
 })
