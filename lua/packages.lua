@@ -669,5 +669,10 @@ pack.add({
 		boot = function()
 			vim.cmd.colorscheme("sakura")
 		end,
+		disable = true,
+	},
+	{
+		src = "github.com/Mofiqul/vscode.nvim",
+		boot = "colorscheme vscode",
 	},
 })
