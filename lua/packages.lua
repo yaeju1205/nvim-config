@@ -154,7 +154,7 @@ pack.add({
 		end,
 	},
 
-	{ src = "github.com/lopi-py/luau-lsp.nvim" },
+	-- { src = "github.com/lopi-py/luau-lsp.nvim" },
 	{ src = "github.com/mason-org/mason-lspconfig.nvim" },
 	{
 		src = "github.com/mason-org/mason.nvim",
