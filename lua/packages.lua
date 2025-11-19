@@ -168,16 +168,18 @@ pack.add({
 			local lsp_servers = {
 				"clangd",
 				"lua_ls",
-				"rust_analyzer",
-				"vimls",
 				"luau_lsp",
+                "gopls",
+				"vimls",
 			}
 
 			vim.lsp.servers = lsp_servers
 		end,
 		boot = function()
+            local servers = vim.lsp.servers
+
 			require("mason-lspconfig").setup({
-				ensure_installed = vim.lsp.servers,
+				ensure_installed = servers,
 				automatic_installation = true,
                 handlers = {}
 			})
@@ -497,9 +499,9 @@ pack.add({
 		end,
 	},
 
-	{
-		dir = "~/dev/light-tree.nvim",
-	},
+	-- {
+	-- 	dir = "~/dev/light-tree.nvim",
+	-- },
 
 	{
 		src = "github.com/hedyhli/outline.nvim",
