@@ -180,7 +180,6 @@ pack.add({
 			require("mason-lspconfig").setup({
 				ensure_installed = servers,
 				automatic_installation = true,
-				automatic_enable = false,
 				handlers = {},
 			})
 
