@@ -182,6 +182,9 @@ pack.add({
 			require("mason-lspconfig").setup({
 				ensure_installed = servers,
 				automatic_installation = true,
+				automatic_enable = {
+					exclude = { "luau_lsp" },
+				},
 				handlers = {},
 			})
 
@@ -191,8 +194,6 @@ pack.add({
 					debounce_text_changes = 200,
 				},
 			})
-
-			vim.lsp.enable(servers)
 		end,
 	},
 

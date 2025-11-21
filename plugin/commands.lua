@@ -34,3 +34,23 @@ end, {
 		return {}
 	end,
 })
+
+create_user_command("InlayHint", function(opts)
+	local fargs = opts.fargs
+	local command = fargs[1]
+
+	if command == "toggle" then
+		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+	elseif command == "enable" then
+		vim.lsp.inlay_hint.enable(true)
+	elseif command == "disable" then
+		vim.lsp.inlay_hint.enable(false)
+	else
+		vim.notify("Unknown argument: " .. command, vim.log.levels.WARN)
+	end
+end, {
+	nargs = "+",
+	complete = function()
+		return { "toggle", "enable", "disable" }
+	end,
+})

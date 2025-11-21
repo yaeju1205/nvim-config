@@ -5,6 +5,7 @@ local function rojo_project()
 end
 
 return {
+    cmd = { "luau-lsp", "lsp" },
 	filetypes = { "luau" },
 	settings = {
 		["luau-lsp"] = {
