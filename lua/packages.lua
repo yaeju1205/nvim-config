@@ -172,6 +172,8 @@ pack.add({
 				"lua_ls",
 				"gopls",
 				"vimls",
+
+                "jsonls",
 			}
 
 			vim.lsp.servers = lsp_servers
