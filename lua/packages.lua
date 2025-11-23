@@ -188,8 +188,8 @@ pack.add({
 			local servers = {
 				"clangd",
 				"lua_ls",
-				"gopls",
 				"vimls",
+                "rust_analyzer",
 				"jsonls",
 			}
 
