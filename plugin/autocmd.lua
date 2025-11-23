@@ -67,6 +67,15 @@ create_autocmd("LspAttach", {
 	nested = true,
 })
 
+create_autocmd("TextYankPost", {
+	callback = function()
+		local copy_to_unnamedplus = require("vim.ui.clipboard.osc52").copy("+")
+		copy_to_unnamedplus(vim.v.event.regcontents)
+		local copy_to_unnamed = require("vim.ui.clipboard.osc52").copy("*")
+		copy_to_unnamed(vim.v.event.regcontents)
+	end,
+})
+
 create_autocmd("ExitPre", {
 	pattern = "*",
 	callback = function()
