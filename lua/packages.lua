@@ -188,7 +188,7 @@ pack.add({
 			local servers = {
 				"clangd",
 				"lua_ls",
-				"gopls",
+                "rust_analyzer",
 				"vimls",
 				"jsonls",
 			}
@@ -202,7 +202,9 @@ pack.add({
 				ensure_installed = servers,
 				automatic_installation = true,
 				automatic_enable = {
-					exclude = { "luau_lsp" },
+					exclude = { 
+                        "luau_lsp",
+                    },
 				},
 				handlers = {},
 			})
