@@ -704,8 +704,8 @@ pack.add({
 
     {
         src = "github.com/chipsenkbeil/distant.nvim",
-        boot = {
-            "distant",
-        }
+        boot = function()
+            require("distant"):setup()
+        end,
     }
 })
