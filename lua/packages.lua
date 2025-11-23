@@ -204,7 +204,6 @@ pack.add({
 				automatic_enable = {
 					exclude = { 
                         "luau_lsp",
-                        "rust_analyzer",
                     },
 				},
 				handlers = {},
