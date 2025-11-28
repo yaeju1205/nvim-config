@@ -1,8 +1,28 @@
 local diagnostic = vim.diagnostic
 local api = vim.api
 
+local orig = vim.diagnostic.handlers.virtual_lines
+
+diagnostic.handlers.virtual_lines = {
+    show = function(ns, bufnr, diagnostics, opts)
+        local cursor = api.nvim_win_get_cursor(0)[1] - 1
+
+        local filtered = {}
+        for _, d in ipairs(diagnostics) do
+            if d.lnum == cursor then
+                table.insert(filtered, d)
+            end
+        end
+
+        orig.show(ns, bufnr, filtered, opts)
+    end,
+
+    hide = orig.hide,
+}
+
 diagnostic.config({
 	virtual_text = true,
+    virtual_lines = { only_current_line = true },
 	underline = true,
 	update_in_insert = true,
 	severity_sort = true,

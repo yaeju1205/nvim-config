@@ -154,10 +154,6 @@ pack.add({
 		end,
 	},
 
-	{
-		src = "github.com/VidocqH/lsp-lens.nvim",
-		boot = { "lsp-lens" },
-	},
 	{ src = "github.com/lopi-py/luau-lsp.nvim" },
 	{
 		src = "github.com/Saecki/crates.nvim",
@@ -188,7 +184,7 @@ pack.add({
 			local servers = {
 				"clangd",
 				"lua_ls",
-                "rust_analyzer",
+				"rust_analyzer",
 				"vimls",
 				"jsonls",
 			}
@@ -202,9 +198,9 @@ pack.add({
 				ensure_installed = servers,
 				automatic_installation = true,
 				automatic_enable = {
-					exclude = { 
-                        "luau_lsp",
-                    },
+					exclude = {
+						"luau_lsp",
+					},
 				},
 				handlers = {},
 			})
