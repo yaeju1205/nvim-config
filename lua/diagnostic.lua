@@ -71,3 +71,10 @@ api.nvim_create_autocmd("CursorHold", {
 		vim.b.diagnostics_pos = cursor_pos
 	end,
 })
+
+vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+    callback = function()
+        vim.diagnostic.show()
+    end,
+})
+
