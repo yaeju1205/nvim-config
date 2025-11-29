@@ -8,8 +8,8 @@ return {
 		"hpp",
 		"hxx",
 		"hh",
-		".m",
-		".mm",
+		"m",
+		"mm",
 	},
 	handlers = {
 		["textDocument/publishDiagnostics"] = function(_, result, ctx)

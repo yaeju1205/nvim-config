@@ -197,11 +197,7 @@ pack.add({
 			require("mason-lspconfig").setup({
 				ensure_installed = servers,
 				automatic_installation = true,
-				automatic_enable = {
-					exclude = {
-						"luau_lsp",
-					},
-				},
+				automatic_enable = false,
 				handlers = {},
 			})
 
@@ -211,6 +207,8 @@ pack.add({
 					debounce_text_changes = 200,
 				},
 			})
+
+            vim.lsp.enable(servers)
 		end,
 	},
 
@@ -644,7 +642,10 @@ pack.add({
 		},
 	},
 
-	{ src = "github.com/samjwill/nvim-unception" },
+	{
+		src = "https://github.com/willothy/flatten.nvim",
+		boot = { "flatten" },
+	},
 
 	{
 		src = "github.com/lewis6991/satellite.nvim",
@@ -696,5 +697,19 @@ pack.add({
 	{
 		src = "github.com/navarasu/onedark.nvim",
 		boot = "colorscheme onedark",
+	},
+
+	{
+		src = "https://github.com/m4xshen/hardtime.nvim",
+		boot = {
+			"hardtime",
+			max_count = math.huge,
+			disabled_keys = {
+                ["<Up>"] = false,
+                ["<Down>"] = false,
+                ["<Left>"] = false,
+                ["<Right>"] = false,
+            },
+		},
 	},
 })
