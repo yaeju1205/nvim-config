@@ -138,10 +138,10 @@ pack.add({
 					priority_weight = 1000,
 					comparators = {
 						cmp.config.compare.score,
-						cmp.config.compare.offset,
 						cmp.config.compare.exact,
-						cmp.config.compare.kind,
+						cmp.config.compare.offset,
 						cmp.config.compare.sort_text,
+						cmp.config.compare.kind,
 						cmp.config.compare.length,
 						cmp.config.compare.order,
 					},
