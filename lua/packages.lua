@@ -155,32 +155,59 @@ pack.add({
     },
 
     { src = "github.com/lopi-py/luau-lsp.nvim" },
-    { src = "github.com/mason-org/mason-lspconfig.nvim" },
     {
         src = "github.com/mason-org/mason.nvim",
         boot = { "mason" },
     },
+    { src = "github.com/mason-org/mason-registry" },
     {
         src = "github.com/neovim/nvim-lspconfig",
         import = function()
-            local servers = {
+            vim.lsp.servers = {
                 "clangd",
                 "lua_ls",
                 "rust_analyzer",
+                "ts_ls",
                 "vimls",
                 "jsonls",
             }
-            vim.lsp.servers = servers
+            vim.lsp.linters = {
+                "eslint_d",
+            }
+            vim.lsp.formatters = {
+                "prettierd",
+            }
         end,
         boot = function()
             local servers = vim.lsp.servers
+            local formatters = vim.lsp.formatters
+            local linters = vim.lsp.linters
 
-            require("mason-lspconfig").setup({
-                ensure_installed = servers,
-                automatic_installation = true,
-                automatic_enable = false,
-                handlers = {},
-            })
+            local registry = require("mason-registry")
+
+            for i=1, #servers do
+                local success, pkg = pcall(registry.get_package, servers[i])
+
+                if success and not pkg:is_installed() then
+                    pkg:install()
+                end
+            end
+
+            for i=1, #formatters do
+                local success, pkg = pcall(registry.get_package, formatters[i])
+
+                if success and not pkg:is_installed() then
+                    pkg:install()
+                end
+            end
+
+            for i=1, #linters do
+                local success, pkg = pcall(registry.get_package, linters[i])
+
+                if success and not pkg:is_installed() then
+                    pkg:install()
+                end
+            end
 
             vim.lsp.config("*", {
                 capabilities = require("cmp_nvim_lsp").default_capabilities(),
@@ -691,19 +718,5 @@ pack.add({
     {
         src = "github.com/navarasu/onedark.nvim",
         boot = "colorscheme onedark",
-    },
-
-    {
-        src = "github.com/m4xshen/hardtime.nvim",
-        boot = {
-            "hardtime",
-            max_count = math.huge,
-            disabled_keys = {
-                ["<Up>"] = false,
-                ["<Down>"] = false,
-                ["<Left>"] = false,
-                ["<Right>"] = false,
-            },
-        },
     },
 })
