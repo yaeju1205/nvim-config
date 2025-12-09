@@ -24,7 +24,6 @@ set smartindent
 set number
 set relativenumber
 set cmdheight=0
-set noshowmatch
 set noequalalways
 
 set shadafile=NONE
@@ -36,7 +35,22 @@ set background=dark
 set list
 set listchars=tab:│\ ,space:\ ,trail:\ 
 
+set hidden
+set showmatch
+
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
 set pumheight=10
+
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
 
 if exists("g:neovide")
     set guifont=KawaiiMono

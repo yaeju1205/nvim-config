@@ -630,6 +630,11 @@ pack.add({
     },
 
     {
+        src = "github.com/nacro90/numb.nvim",
+        boot = { "numb" },
+    },
+
+    {
         src = "github.com/windwp/nvim-autopairs",
         events = { "InsertEnter" },
         boot = { "nvim-autopairs" },
