@@ -309,11 +309,10 @@ pack.add({
         }
     },
 
-    {
-        -- dir = "~/dev/savepage.nvim",
-        src = "github.com/kimpure/savepage.nvim",
-        boot = {
-            "savepage",
-        }
-    }
+    -- {
+    --     src = "github.com/kimpure/savepage.nvim",
+    --     boot = {
+    --         "savepage",
+    --     }
+    -- }
 })
