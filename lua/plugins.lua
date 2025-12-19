@@ -261,8 +261,8 @@ plugin.install("lukas-reineke/indent-blankline.nvim")("ibl").setup()
 
 -- Scroll
 plugin.install("lewis6991/satellite.nvim")("satellite").setup({
-	winblend = 0,
 	current_only = false,
+	winblend = 0,
 	handlers = {
 		gitsigns = {
 			signs = {
@@ -275,6 +275,7 @@ plugin.install("lewis6991/satellite.nvim")("satellite").setup({
 })
 
 -- ColorScheme
-plugin.install("thesimonho/kanagawa-paper.nvim")("kanagawa-paper").setup()
-vim.cmd("colorscheme kanagawa-paper")
+plugin.install("navarasu/onedark.nvim")("onedark").setup({
+    style = "darker",
+})
 

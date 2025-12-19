@@ -90,3 +90,5 @@ call defines#load()
 call packages#load()
 call plugins#load()
 
+colorscheme onedark
+

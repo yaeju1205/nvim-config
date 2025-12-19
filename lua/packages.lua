@@ -36,5 +36,18 @@ function plugin.install(repo, spec)
 	end
 end
 
+function plugin.update(repo, spec)
+    spec = spec or {}
+	local name = string.match(repo, "^.+/(.+)$")
+	local directory = (spec.directory or plugin.directory) .. name
+
+    if vim.fn.isdirectory(directory) == 1 then
+        os.remove(directory)
+    end
+
+    return plugin.install(repo, spec)
+end
+
 packages.plugin = plugin
 _G.packages = packages
+
