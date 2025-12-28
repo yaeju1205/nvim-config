@@ -11,6 +11,7 @@ local nvim_tree = plugin.install("nvim-tree/nvim-tree.lua")("nvim-tree")
 local nvim_tree_api = require("nvim-tree.api")
 
 nvim_tree.setup({
+	auto_reload_on_write = true,
 	renderer = {
 		special_files = {},
 		highlight_git = true,
@@ -23,6 +24,11 @@ nvim_tree.setup({
 			show = {
 				git = false,
 			},
+		},
+	},
+	actions = {
+		remove_file = {
+			close_window = true,
 		},
 	},
 	diagnostics = {
@@ -47,6 +53,7 @@ nvim_tree.setup({
 	},
 	on_attach = function(bufnr)
 		nvim_tree_api.config.mappings.default_on_attach(bufnr)
+
 		vim.keymap.set("n", "d", function()
 			--- @type nvim_tree.api.Node
 			local node = nvim_tree_api.tree.get_node_under_cursor()
@@ -73,6 +80,23 @@ nvim_tree.setup({
 			nvim_tree_api.tree.reload()
 		end, {
 			desc = "nvim-tree: Delete",
+			buffer = bufnr,
+			noremap = true,
+			silent = true,
+			nowait = true,
+		})
+
+		vim.keymap.set("n", "<CR>", function()
+			local node = nvim_tree_api.tree.get_node_under_cursor()
+
+			--// Blocked root_folder_label
+			if not node or not node.parent then
+				return
+			end
+
+			nvim_tree_api.node.open.edit()
+		end, {
+			desc = "nvim-tree: Open",
 			buffer = bufnr,
 			noremap = true,
 			silent = true,
@@ -129,6 +153,8 @@ local icons = {
 	TypeParameter = "",
 }
 
+local tab_comp = false
+
 cmp.setup({
 	preselect = cmp.PreselectMode.None,
 	performance = {
@@ -144,24 +170,46 @@ cmp.setup({
 		["<Down>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                tab_comp = true
 			else
 				fallback()
+                tab_comp = false
 			end
 		end, { "i", "s" }),
 		["<Up>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+                tab_comp = true
 			else
 				fallback()
+                tab_comp = false
 			end
 		end, { "i", "s" }),
 		["<Tab>"] = function(fallback)
-			if cmp.visible() and cmp.get_selected_entry() then
-				cmp.confirm({ select = false })
-			else
-				fallback()
-			end
+            if cmp.visible() then
+                if tab_comp and cmp.get_selected_entry() then
+                    cmp.confirm({ select = false })
+                    tab_comp = false
+                else
+                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                end
+            else
+                fallback()
+            end
 		end,
+        ["<S-Tab>"] = function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+            end
+        end,
+        ["<CR>"] = function (fallback)
+            if cmp.get_selected_entry() then
+                cmp.confirm({ select = false })
+                tab_comp = false
+            else
+                fallback()
+            end
+        end,
 		["<C-e>"] = cmp.mapping.abort(),
 		["<Esc>"] = cmp.mapping.close(),
 	}),
@@ -231,6 +279,9 @@ cmp.setup.filetype("luau", {
 	},
 })
 
+-- Syntax
+plugin.install("kimpure/blink-syntax.nvim")
+
 -- Lsp
 plugin.install("lopi-py/luau-lsp.nvim")
 plugin.install("neovim/nvim-lspconfig")
@@ -248,7 +299,7 @@ for i = 1, #vim.lsp.servers do
 end
 
 for i = 1, #vim.lsp.formatters do
-    local pkg = registry.has_package(vim.lsp.formatters[i])
+	local pkg = registry.has_package(vim.lsp.formatters[i])
 
 	if pkg and not registry.is_installed(vim.lsp.formatters[i]) then
 		vim.cmd("MasonInstall " .. vim.lsp.formatters[i])
@@ -256,7 +307,7 @@ for i = 1, #vim.lsp.formatters do
 end
 
 for i = 1, #vim.lsp.linters do
-    local pkg = registry.has_package(vim.lsp.linters[i])
+	local pkg = registry.has_package(vim.lsp.linters[i])
 
 	if pkg and not registry.is_installed(vim.lsp.linters[i]) then
 		vim.cmd("MasonInstall " .. vim.lsp.linters[i])
@@ -318,21 +369,24 @@ vim.lsp.config("*", {
 vim.lsp.enable(vim.lsp.servers)
 
 vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-        if not client then
-            return
-        end
+		if not client then
+			return
+		end
 
-
-        require("cmp").setup.buffer({
-            sources = {
-                { name = "nvim_lsp" },
-            },
-        })
-    end,
+		require("cmp").setup.buffer({
+			sources = {
+				{ name = "nvim_lsp" },
+			},
+		})
+	end,
 })
+
+-- Pairs
+plugin.install("windwp/nvim-autopairs")("nvim-autopairs").setup()
+plugin.install("kimpure/warp.nvim")("warp").setup()
 
 --- Git
 plugin.install("lewis6991/gitsigns.nvim")("gitsigns").setup({
@@ -354,6 +408,16 @@ plugin.install("lewis6991/gitsigns.nvim")("gitsigns").setup({
 	},
 })
 
+-- Notify
+local notify = plugin.install("rcarriga/nvim-notify")("notify")
+notify.setup({
+    timeout = 0,
+    stages = "fade",
+    minimum_width = 30,
+    top_down = false,
+})
+vim.notify = notify
+
 -- Terminal
 plugin.install("willothy/flatten.nvim")("flatten").setup()
 
@@ -361,7 +425,7 @@ plugin.install("willothy/flatten.nvim")("flatten").setup()
 plugin.install("lukas-reineke/indent-blankline.nvim")("ibl").setup()
 
 -- Scroll
-plugin.update("lewis6991/satellite.nvim")("satellite").setup({
+plugin.install("lewis6991/satellite.nvim")("satellite").setup({
 	current_only = false,
 	winblend = 0,
 	handlers = {
@@ -382,4 +446,3 @@ plugin.update("lewis6991/satellite.nvim")("satellite").setup({
 -- ColorScheme
 plugin.install("rktjmp/lush.nvim")
 plugin.install("kimpure/sakura.nvim")
-

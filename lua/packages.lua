@@ -4,6 +4,13 @@ local plugin = {}
 plugin.index = "https://github.com/"
 plugin.directory = vim.fn.expand(vim.fn.stdpath("data") .. "/site/pack/plugins/opt/")
 
+--- @class Plugin.Spec
+--- @field index? string
+--- @field directory? string
+--- @field branch? string
+
+--- @param repo string
+--- @param spec? Plugin.Spec
 function plugin.install(repo, spec)
 	spec = spec or {}
 	local name = string.match(repo, "^.+/(.+)$")
@@ -31,20 +38,25 @@ function plugin.install(repo, spec)
 
 	vim.cmd("packadd " .. name)
 
-	return function(module)
-		return require(module)
-	end
+	return require
 end
 
+--- @param name string
+function plugin.uninstall(name)
+    if vim.fn.isdirectory(plugin.directory .. name) == 1 then
+        vim.fn.delete(plugin.directory .. name, "rf")
+    end
+end
+
+--- @param repo string
+--- @param spec? Plugin.Spec
 function plugin.update(repo, spec)
     spec = spec or {}
 	local name = string.match(repo, "^.+/(.+)$")
 	local directory = (spec.directory or plugin.directory) .. name
-
     if vim.fn.isdirectory(directory) == 1 then
-        os.remove(directory)
+        vim.fn.delete(plugin.directory .. name, "rf")
     end
-
     return plugin.install(repo, spec)
 end
 
