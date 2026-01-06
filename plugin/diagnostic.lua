@@ -57,3 +57,30 @@ api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 		vim.diagnostic.show()
 	end,
 })
+
+local function get_lsp_clients(opts)
+	if vim.lsp.get_clients then
+		return vim.lsp.get_clients(opts)
+	else
+		--- @diagnostic disable-next-line
+		return vim.lsp.get_active_clients(opts)
+	end
+end
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+	callback = function(args)
+		local uri = vim.uri_from_fname(args.file)
+
+		for _, client in ipairs(get_lsp_clients({ bufnr = args.buf })) do
+			---@diagnostic disable-next-line
+			client.notify("workspace/didChangeWatchedFiles", {
+				changes = {
+					{
+						uri = uri,
+						type = 2, -- Changed
+					},
+				},
+			})
+		end
+	end,
+})

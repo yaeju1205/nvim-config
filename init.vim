@@ -91,6 +91,9 @@ inoremap <silent> <CR> <CR><C-g>u
 inoremap <silent> <space> <space><C-g>u
 inoremap <silent> <C-r> <C-g>u<C-r>
 
+imap <silent><expr> <C-l> copilot#Accept()
+imap <silent><expr> <NL> copilot#Accept()
+
 vnoremap <silent> < <gv
 vnoremap <silent> > >gv
 

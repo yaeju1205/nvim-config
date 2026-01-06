@@ -9,6 +9,7 @@ plugin.install("DaikyXendo/nvim-material-icon")
 
 local nvim_tree = plugin.install("nvim-tree/nvim-tree.lua")("nvim-tree")
 local nvim_tree_api = require("nvim-tree.api")
+local nvim_tree_view = require("nvim-tree.view")
 
 nvim_tree.setup({
 	auto_reload_on_write = true,
@@ -70,12 +71,41 @@ nvim_tree.setup({
 
 			vim.fn.delete(node.absolute_path, "rf")
 
-			local bufs = vim.api.nvim_list_bufs()
-			for _, buf in ipairs(bufs) do
-				if vim.api.nvim_buf_is_loaded(buf) and vim.api.nvim_buf_get_name(buf) == node.name then
-					vim.api.nvim_buf_delete(buf, { force = true })
+			local function close_windows(windows)
+				-- Prevent from closing when the win count equals 1 or 2,
+				-- where the win to remove could be the last opened.
+				-- For details see #2503.
+				if nvim_tree_view.View.float.enable and #vim.api.nvim_list_wins() < 3 then
+					return
+				end
+
+				for _, window in ipairs(windows) do
+					if vim.api.nvim_win_is_valid(window) then
+						vim.api.nvim_win_close(window, true)
+					end
 				end
 			end
+
+			local function clear_buffer(absolute_path)
+				local bufs = vim.fn.getbufinfo({ bufloaded = 1, buflisted = 1 })
+				for _, buf in pairs(bufs) do
+					if buf.name == absolute_path then
+						local tree_winnr = vim.api.nvim_get_current_win()
+						if buf.hidden == 0 and (#bufs > 1 or nvim_tree_view.View.float.enable) then
+							vim.api.nvim_set_current_win(buf.windows[1])
+							vim.cmd(":bn")
+						end
+						vim.api.nvim_buf_delete(buf.bufnr, { force = true })
+						if not nvim_tree_view.View.float.quit_on_focus_loss then
+							vim.api.nvim_set_current_win(tree_winnr)
+						end
+						close_windows(buf.windows)
+						return
+					end
+				end
+			end
+
+			clear_buffer(node.absolute_path)
 
 			nvim_tree_api.tree.reload()
 		end, {
@@ -188,7 +218,7 @@ cmp.setup({
 		["<Tab>"] = function(fallback)
 			if cmp.visible() then
 				if tab_comp and cmp.get_selected_entry() then
-                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-g>u", true, true, true), 'n', false)
+					vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-g>u", true, true, true), "n", false)
 					cmp.confirm({ select = false })
 					tab_comp = false
 				else
@@ -205,7 +235,7 @@ cmp.setup({
 		end,
 		["<CR>"] = function(fallback)
 			if cmp.get_selected_entry() then
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-g>u", true, true, true), 'n', false)
+				vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-g>u", true, true, true), "n", false)
 				cmp.confirm({ select = false })
 				tab_comp = false
 			else
@@ -448,19 +478,23 @@ plugin.install("lewis6991/satellite.nvim")("satellite").setup({
 
 -- Cmdline
 plugin.install("kimpure/cmdhistory.nvim")("cmdhistory").setup({
-    mute = {
-        "q",
-        "qa",
-        "wq",
-        "wqa",
-        "wincmd h",
-        "wincmd j",
-        "wincmd k",
-        "wincmd l",
-        "w",
-        "wa",
-    },
+	mute = {
+		"q",
+		"qa",
+		"wq",
+		"wqa",
+		"wincmd h",
+		"wincmd j",
+		"wincmd k",
+		"wincmd l",
+		"w",
+		"wa",
+	},
 })
+
+-- Copilot
+vim.g.copilot_no_tab_map = true
+plugin.install("github/copilot.vim")
 
 -- ColorScheme
 plugin.install("rktjmp/lush.nvim")
