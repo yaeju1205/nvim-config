@@ -442,21 +442,23 @@ plugin.install("lewis6991/gitsigns.nvim")("gitsigns").setup({
 })
 
 -- Notify
-local notify = plugin.install("rcarriga/nvim-notify")("notify")
-notify.setup({
-	timeout = 0,
-	stages = "fade",
-	minimum_width = 30,
-	top_down = false,
-})
-vim.notify = notify
-
--- Terminal
-plugin.install("willothy/flatten.nvim")("flatten").setup()
-
--- TabLine
 if not vim.g.vscode then
-	plugin.install("lukas-reineke/indent-blankline.nvim")("ibl").setup()
+	local notify = plugin.install("rcarriga/nvim-notify")("notify")
+	notify.setup({
+		timeout = 0,
+		stages = "fade",
+		minimum_width = 30,
+		top_down = false,
+	})
+	vim.notify = notify
+
+	-- Terminal
+	plugin.install("willothy/flatten.nvim")("flatten").setup()
+
+	-- TabLine
+	if not vim.g.vscode then
+		plugin.install("lukas-reineke/indent-blankline.nvim")("ibl").setup()
+	end
 end
 
 -- Scroll
