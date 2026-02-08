@@ -71,41 +71,19 @@ nvim_tree.setup({
 
 			vim.fn.delete(node.absolute_path, "rf")
 
-			local function close_windows(windows)
-				-- Prevent from closing when the win count equals 1 or 2,
-				-- where the win to remove could be the last opened.
-				-- For details see #2503.
-				if nvim_tree_view.View.float.enable and #vim.api.nvim_list_wins() < 3 then
+			local bufs = vim.fn.getbufinfo({ bufloaded = 1, buflisted = 1 })
+			for _, buf in pairs(bufs) do
+				if buf.name == node.absolute_path then
+					vim.api.nvim_buf_delete(buf.bufnr, { force = true })
+					for i=1, #buf.windows do
+						local win = buf.windows[i]
+						if vim.api.nvim_win_is_valid(win) then
+							vim.api.nvim_win_close(win, true)
+						end
+					end
 					return
 				end
-
-				for _, window in ipairs(windows) do
-					if vim.api.nvim_win_is_valid(window) then
-						vim.api.nvim_win_close(window, true)
-					end
-				end
 			end
-
-			local function clear_buffer(absolute_path)
-				local bufs = vim.fn.getbufinfo({ bufloaded = 1, buflisted = 1 })
-				for _, buf in pairs(bufs) do
-					if buf.name == absolute_path then
-						local tree_winnr = vim.api.nvim_get_current_win()
-						if buf.hidden == 0 and (#bufs > 1 or nvim_tree_view.View.float.enable) then
-							vim.api.nvim_set_current_win(buf.windows[1])
-							vim.cmd(":bn")
-						end
-						vim.api.nvim_buf_delete(buf.bufnr, { force = true })
-						if not nvim_tree_view.View.float.quit_on_focus_loss then
-							vim.api.nvim_set_current_win(tree_winnr)
-						end
-						close_windows(buf.windows)
-						return
-					end
-				end
-			end
-
-			clear_buffer(node.absolute_path)
 
 			nvim_tree_api.tree.reload()
 		end, {
