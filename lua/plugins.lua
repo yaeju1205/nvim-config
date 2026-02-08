@@ -455,7 +455,9 @@ vim.notify = notify
 plugin.install("willothy/flatten.nvim")("flatten").setup()
 
 -- TabLine
-plugin.install("lukas-reineke/indent-blankline.nvim")("ibl").setup()
+if not vim.g.vscode then
+	plugin.install("lukas-reineke/indent-blankline.nvim")("ibl").setup()
+end
 
 -- Scroll
 plugin.install("lewis6991/satellite.nvim")("satellite").setup({
@@ -493,8 +495,10 @@ plugin.install("kimpure/cmdhistory.nvim")("cmdhistory").setup({
 })
 
 -- Copilot
-vim.g.copilot_no_tab_map = true
-plugin.install("github/copilot.vim")
+if vim.g.use_copilot then
+	vim.g.copilot_no_tab_map = true
+	plugin.install("github/copilot.vim")
+end
 
 -- ColorScheme
 plugin.install("rktjmp/lush.nvim")

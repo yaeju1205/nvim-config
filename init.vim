@@ -116,6 +116,10 @@ if exists("g:neovide")
     autocmd VimEnter * execute 'cd ' . fnameescape(stdpath('config'))
 endif
 
+if exists("g:vscode")
+    call vscode#load()
+endif
+
 " Load Neovim Plugins
 call defines#load()
 call packages#load()
