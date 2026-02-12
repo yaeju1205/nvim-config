@@ -294,7 +294,27 @@ plugin.install("kimpure/blink-syntax.vim")
 plugin.install("kimpure/luau-syntax.vim")
 
 -- Lsp
-plugin.install("lopi-py/luau-lsp.nvim")
+local vscode_settings = plugin.install("kimpure/vscode-settings.nvim")("vscode-settings")
+plugin.install("lopi-py/luau-lsp.nvim")("luau-lsp").setup(vim.tbl_deep_extend("force", {
+        platform = {
+            type = "roblox",
+        },
+        types = {
+            roblox_security_level = "PluginSecurity",
+        },
+        completion = {
+            imports = {
+                enabled = true, -- enable auto imports
+            },
+        },
+        sourcemap = {
+            enabled = true,
+            autogenerate = true, -- automatic generation when the server is initialized
+            rojo_project_file = "default.project.json",
+            sourcemap_file = "sourcemap.json",
+        },
+}, vscode_settings.get_settings()["luau-lsp"] or {}))
+
 plugin.install("neovim/nvim-lspconfig")
 plugin.install("mason-org/mason.nvim")("mason").setup()
 plugin.install("mason-org/mason-registry")
