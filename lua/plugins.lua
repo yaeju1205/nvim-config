@@ -289,6 +289,12 @@ cmp.setup.filetype("luau", {
 	},
 })
 
+-- TreeSitter
+plugin.install("nvim-treesitter/nvim-treesitter")("nvim-treesitter").setup()
+
+-- Tools
+plugin.install("mrcjkb/haskell-tools.nvim")("haskell-tools")
+
 -- Syntax
 plugin.install("kimpure/blink-syntax.vim")
 plugin.install("kimpure/luau-syntax.vim")
@@ -406,6 +412,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		if not client then
 			return
 		end
+
+        if client.server_capabilities.semanticTokensProvider then
+            vim.lsp.semantic_tokens.start(args.buf, client.id)
+        end
 
 		require("cmp").setup.buffer({
 			sources = {
