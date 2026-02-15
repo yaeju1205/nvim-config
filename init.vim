@@ -125,5 +125,8 @@ call defines#load()
 call packages#load()
 call plugins#load()
 
+" Colors 
 colorscheme sakura
 
+" Add highlight
+highlight! link VarId Identifier
