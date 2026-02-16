@@ -86,7 +86,7 @@ nvim_tree.setup({
 			end
 
 			nvim_tree_api.tree.reload()
-		end, {
+        end, {
 			desc = "nvim-tree: Delete",
 			buffer = bufnr,
 			noremap = true,
