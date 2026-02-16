@@ -77,7 +77,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 				changes = {
 					{
 						uri = uri,
-						type = 2, -- Changed
+						type = 2,
 					},
 				},
 			})

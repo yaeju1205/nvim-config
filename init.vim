@@ -102,15 +102,7 @@ vnoremap <silent> > >gv
 tnoremap <silent> <ESC> <C-\><C-n>
 
 if has("win32") || has("win64")
-    let &shell = 'powershell'
-    let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
-    let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; $LastExitCode'
-    let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; $LastExitCode'
-
-    set shellquote=
-    set shellxquote=
-
-    set wildignore+=.git\*,.hg\*,.svn\*
+    call windows#load()
 else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
@@ -134,4 +126,3 @@ call plugins#load()
 colorscheme mellifluous
 
 highlight! link NvimTreeRootFolder NvimTreeHighlights
-
