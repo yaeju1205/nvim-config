@@ -6,17 +6,20 @@ if vim.fn.executable("fzf") == 1 then
         },
     })
 
-    local has_grep = pcall(function()
-        vim.fn.execute("grep")
-    end)
+    --- @diagnostic disable
+    coroutine.resume(coroutine.create(function()
+        local has_grep = pcall(function()
+            vim.fn.execute("grep")
+        end)
 
-    if has_grep then
-        vim.keymap.set(
-            "n",
-            "<leader>f",
-            "<cmd>FzfLua live_grep<CR>",
-            { desc = "FZF Live Grep" }
-        )
-    end
+        if has_grep then
+            vim.keymap.set(
+                "n",
+                "<leader>f",
+                "<cmd>FzfLua live_grep<CR>",
+                { desc = "FZF Live Grep" }
+            )
+        end
+    end))
 end
 
