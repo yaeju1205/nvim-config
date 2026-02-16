@@ -65,6 +65,8 @@ set shortmess+=I
 set undofile
 execute 'set undodir=' .. luaeval("vim.fn.stdpath('state') .. '/undo'")
 
+let g:mapleader=' '
+
 " Mappings
 nnoremap <silent> <A-Right> :wincmd l<CR>
 nnoremap <silent> <A-Left> :wincmd h<CR>
@@ -100,8 +102,11 @@ vnoremap <silent> > >gv
 tnoremap <silent> <ESC> <C-\><C-n>
 
 if has("win32") || has("win64")
-    set shell=C:\\windows\\system32\\windowspowershell\\v1.0\\powershell.exe
-    set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+    let &shell = 'powershell'
+    let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+    let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; $LastExitCode'
+    let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; $LastExitCode'
+
     set shellquote=
     set shellxquote=
 
@@ -128,5 +133,3 @@ call plugins#load()
 " Colors 
 colorscheme sakura
 
-" Add highlight
-highlight! link VarId Identifier

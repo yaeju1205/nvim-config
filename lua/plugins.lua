@@ -14,7 +14,7 @@ local nvim_tree_view = require("nvim-tree.view")
 nvim_tree.setup({
 	auto_reload_on_write = true,
 	renderer = {
-		special_files = {},
+    	special_files = {},
 		highlight_git = true,
 		root_folder_label = ":~:s?$?",
 		indent_markers = {
@@ -110,10 +110,10 @@ nvim_tree.setup({
 			silent = true,
 			nowait = true,
 		})
-	end,
+    end,
 })
 
-vim.keymap.set("n", "<space>e", require("nvim-tree.api").tree.toggle, {
+vim.keymap.set("n", "<leader>e", require("nvim-tree.api").tree.toggle, {
 	silent = true,
 	desc = "Toggle nvim-tree",
 })
