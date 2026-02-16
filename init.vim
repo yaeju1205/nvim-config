@@ -131,5 +131,7 @@ call packages#load()
 call plugins#load()
 
 " Colors 
-colorscheme sakura
+colorscheme mellifluous
+
+highlight! link NvimTreeRootFolder NvimTreeHighlights
 

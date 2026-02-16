@@ -513,3 +513,9 @@ end
 -- ColorScheme
 plugin.install("rktjmp/lush.nvim")
 plugin.install("kimpure/sakura.nvim")
+
+vim.g.colors_name = "mountain"
+plugin.install("ramojus/mellifluous.nvim")("mellifluous").setup({
+    style = "mountain",
+    dim_inactive = true,
+})
