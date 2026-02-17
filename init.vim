@@ -117,10 +117,8 @@ if exists("g:vscode")
     call vscode#load()
 endif
 
-" Load Neovim Plugins
-call defines#load()
-call packages#load()
-call plugins#load()
+" Boot Neovim
+call neovim#boot()
 
 " Colors 
 colorscheme mellifluous

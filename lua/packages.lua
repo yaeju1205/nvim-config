@@ -1,4 +1,3 @@
-require("utils.async")
 local packages = {}
 
 local plugin = {}
