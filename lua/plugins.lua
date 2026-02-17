@@ -297,9 +297,6 @@ cmp.setup.filetype("luau", {
 -- TreeSitter
 plugin.install("nvim-treesitter/nvim-treesitter")("nvim-treesitter").setup()
 
--- Tools
-plugin.install("mrcjkb/haskell-tools.nvim")("haskell-tools")
-
 -- Syntax
 plugin.install("kimpure/blink-syntax.vim")
 plugin.install("kimpure/luau-syntax.vim")
