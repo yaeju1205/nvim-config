@@ -168,6 +168,11 @@ local icons = {
 local tab_comp = false
 
 cmp.setup({
+	completion = {
+		keyword_length = 1,
+		completeopt = "menu,menuone,noselect,noinsert",
+        autocomplete = { cmp.TriggerEvent.TextChanged },
+	},
 	preselect = cmp.PreselectMode.None,
 	performance = {
 		debounce = 0,
@@ -227,10 +232,6 @@ cmp.setup({
 		["<C-e>"] = cmp.mapping.abort(),
 		["<Esc>"] = cmp.mapping.close(),
 	}),
-	completion = {
-		keyword_length = 1,
-		completeopt = "menu,menuone,noselect,noinsert",
-	},
 	window = {
 		completion = cmp.config.window.bordered({
 			border = "none",
@@ -409,14 +410,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
                 })
             end)
         end
-
-        async(function()
-            require("cmp").setup.buffer({
-                sources = {
-                    { name = "nvim_lsp" },
-                },
-            })
-        end)
 	end,
 })
 
