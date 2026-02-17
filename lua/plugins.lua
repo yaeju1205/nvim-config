@@ -384,7 +384,6 @@ vim.lsp.enable(vim.lsp.servers)
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-        local attach_start = os.clock()
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
 		if not client then
@@ -417,9 +416,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
                     { name = "nvim_lsp" },
                 },
             })
-        end )
-
-        print("LspAttach time:", os.clock() - attach_start)
+        end)
 	end,
 })
 

@@ -26,7 +26,6 @@ set laststatus=2
 set incsearch
 set ignorecase
 set smartcase
-
 set showmatch
 
 " Tab Support
@@ -36,35 +35,45 @@ set softtabstop=4
 set expandtab
 set smartindent
 
-" NumberLine Support
+" Support NumberLine 
 set number
 set relativenumber
 set noequalalways
 
+" Set word point
+set iskeyword-=- 
+
+" Set whitespace chars
 set list
 set listchars=tab:│\ ,space:\ ,trail:\ 
 
+" Disable Swapfile
 set noswapfile
-
-set signcolumn=yes
-
 set hidden
+set shadafile=NONE
+
+" Enable signcolumn
+set signcolumn=yes
 
 set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
 
-set shadafile=NONE
-
+" Set default clipboard (ssh clipboard ref plugin/clipboard.lua)
 set clipboard=unnamed,unnamedplus
 
 set shortmess+=c
 set shortmess+=I
 
+" Remember undo point
 set undofile
 execute 'set undodir=' .. luaeval("vim.fn.stdpath('state') .. '/undo'")
 
+" Set ignore files
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+
+" Set leader key (default: space)
 let g:mapleader=' '
 
 " Mappings
@@ -101,24 +110,20 @@ vnoremap <silent> > >gv
 
 tnoremap <silent> <ESC> <C-\><C-n>
 
-if has("win32") || has("win64")
-    call windows#load()
-else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
-
-if exists("g:neovide")
-    call neovide#load()
-
-    autocmd VimEnter * execute 'cd ' . fnameescape(stdpath('config'))
-endif
-
+" Load Configs
 if exists("g:vscode")
+    " Load Vscode Neovim Config
     call vscode#load()
+else
+    if exists("g:neovide")
+        " Load Neovide Config
+        call neovide#load()
+    endif
+
+    "Load Neovim Config
+    call neovim#load()
 endif
 
-" Boot Neovim
-call neovim#boot()
 
 " Colors 
 colorscheme mellifluous

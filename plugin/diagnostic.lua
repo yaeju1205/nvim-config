@@ -29,32 +29,34 @@ diagnostic.config({
 api.nvim_create_autocmd("CursorHold", {
 	pattern = "*",
 	callback = function()
-		if #vim.diagnostic.get(0) == 0 then
-			return
-		end
+        pcall(function()
+            if #vim.diagnostic.get(0) == 0 then
+                return
+            end
 
-		if not vim.b.diagnostics_pos then
-			vim.b.diagnostics_pos = { nil, nil }
-		end
+            if not vim.b.diagnostics_pos then
+                vim.b.diagnostics_pos = { nil, nil }
+            end
 
-		local cursor_pos = api.nvim_win_get_cursor(0)
+            local cursor_pos = api.nvim_win_get_cursor(0)
 
-		if not vim.deep_equal(cursor_pos, vim.b.diagnostics_pos) then
-			diagnostic.open_float(nil, {
-				border = "none",
-				focusable = false,
-				close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-				scope = "cursor",
-			})
-		end
+            if not vim.deep_equal(cursor_pos, vim.b.diagnostics_pos) then
+                diagnostic.open_float(nil, {
+                    border = "none",
+                    focusable = false,
+                    close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+                    scope = "cursor",
+                })
+            end
 
-		vim.b.diagnostics_pos = cursor_pos
+            vim.b.diagnostics_pos = cursor_pos
+        end)
 	end,
 })
 
 api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 	callback = function()
-		vim.diagnostic.show()
+		async(vim.diagnostic.show)
 	end,
 })
 
@@ -71,16 +73,18 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	callback = function(args)
 		local uri = vim.uri_from_fname(args.file)
 
-		for _, client in ipairs(get_lsp_clients({ bufnr = args.buf })) do
-			---@diagnostic disable-next-line
-			client.notify("workspace/didChangeWatchedFiles", {
-				changes = {
-					{
-						uri = uri,
-						type = 2,
-					},
-				},
-			})
-		end
+        async(function()
+            for _, client in ipairs(get_lsp_clients({ bufnr = args.buf })) do
+                ---@diagnostic disable-next-line
+                client.notify("workspace/didChangeWatchedFiles", {
+                    changes = {
+                        {
+                            uri = uri,
+                            type = 2,
+                        },
+                    },
+                })
+            end
+        end)
 	end,
 })

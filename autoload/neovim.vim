@@ -1,4 +1,9 @@
-function neovim#boot()
+function neovim#load()
+    " Load Windows Config
+    if has("win32") || has("win64")
+        call windows#load()
+    endif
+
     " Load Neovim Utils
     lua require("utils.async")
 
