@@ -8,4 +8,7 @@ function! windows#load()
     set shellxquote=
 
     set wildignore+=.git\*,.hg\*,.svn\*
+
+    " Save CRLF to LF
+    autocmd BufWritePre * setlocal fileformat=unix
 endfunction
