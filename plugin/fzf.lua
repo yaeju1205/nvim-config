@@ -7,7 +7,7 @@ if vim.fn.executable("fzf") == 1 then
     })
 
     --- @diagnostic disable
-    coroutine.resume(coroutine.create(function()
+    async(function()
         local has_grep = pcall(function()
             vim.fn.execute("grep")
         end)
@@ -20,6 +20,6 @@ if vim.fn.executable("fzf") == 1 then
                 { desc = "FZF Live Grep" }
             )
         end
-    end))
+    end)
 end
 

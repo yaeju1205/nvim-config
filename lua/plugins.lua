@@ -1,3 +1,7 @@
+if vim.g.vscode then
+    return
+end
+
 local plugin = packages.plugin
 
 -- Plenary
@@ -388,16 +392,34 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 
         if client.server_capabilities.semanticTokensProvider then
-            vim.lsp.semantic_tokens.start(args.buf, client.id)
+            async(function()
+                vim.lsp.semantic_tokens.start(args.buf, client.id)
+            end)
         end
 
-		require("cmp").setup.buffer({
-			sources = {
-				{ name = "nvim_lsp" },
-			},
-		})
+        if client.server_capabilities.documentHighlightProvider then
+            async(function ()
+                vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+                    buffer = args.buf,
+                    callback = vim.lsp.buf.document_highlight,
+                })
 
-        print("Attach time:", os.clock() - attach_start)
+                vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
+                    buffer = args.buf,
+                    callback = vim.lsp.buf.clear_references,
+                })
+            end)
+        end
+
+        async(function()
+            require("cmp").setup.buffer({
+                sources = {
+                    { name = "nvim_lsp" },
+                },
+            })
+        end )
+
+        print("LspAttach time:", os.clock() - attach_start)
 	end,
 })
 
@@ -405,7 +427,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 plugin.install("windwp/nvim-autopairs")("nvim-autopairs").setup()
 plugin.install("kimpure/warp.nvim")("warp").setup()
 
---- Git
+-- Git
 plugin.install("lewis6991/gitsigns.nvim")("gitsigns").setup({
 	signs = {
 		add = { text = "┃" },
@@ -425,68 +447,64 @@ plugin.install("lewis6991/gitsigns.nvim")("gitsigns").setup({
 	},
 })
 
--- Notify
-if not vim.g.vscode then
-	local notify = plugin.install("rcarriga/nvim-notify")("notify")
-	notify.setup({
-		timeout = 0,
-		stages = "fade",
-		minimum_width = 30,
-		top_down = false,
-	})
-	vim.notify = notify
+-- notify
+local notify = plugin.install("rcarriga/nvim-notify")("notify")
+notify.setup({
+    timeout = 0,
+    stages = "fade",
+    minimum_width = 30,
+    top_down = false,
+})
+vim.notify = notify
 
-	-- Terminal
-	plugin.install("willothy/flatten.nvim")("flatten").setup()
+-- terminal
+plugin.install("willothy/flatten.nvim")("flatten").setup()
 
-	-- TabLine
-	if not vim.g.vscode then
-		plugin.install("lukas-reineke/indent-blankline.nvim")("ibl").setup()
-	end
-end
+-- tabline
+plugin.install("lukas-reineke/indent-blankline.nvim")("ibl").setup()
 
--- Scroll
+-- scroll
 plugin.install("lewis6991/satellite.nvim")("satellite").setup({
-	current_only = false,
-	winblend = 0,
-	handlers = {
-		marks = {
-			enable = false,
-		},
-		gitsigns = {
-			enable = true,
-			signs = {
-				add = "│",
-				change = "│",
-				delete = "│",
-			},
-		},
-	},
+    current_only = false,
+    winblend = 0,
+    handlers = {
+        marks = {
+            enable = false,
+        },
+        gitsigns = {
+            enable = true,
+            signs = {
+                add = "│",
+                change = "│",
+                delete = "│",
+            },
+        },
+    },
 })
 
--- Cmdline
+-- cmdline
 plugin.install("kimpure/cmdhistory.nvim")("cmdhistory").setup({
-	mute = {
-		"q",
-		"qa",
-		"wq",
-		"wqa",
-		"wincmd h",
-		"wincmd j",
-		"wincmd k",
-		"wincmd l",
-		"w",
-		"wa",
-	},
+    mute = {
+        "q",
+        "qa",
+        "wq",
+        "wqa",
+        "wincmd h",
+        "wincmd j",
+        "wincmd k",
+        "wincmd l",
+        "w",
+        "wa",
+    },
 })
 
--- Copilot
+-- copilot
 if vim.g.use_copilot then
-	vim.g.copilot_no_tab_map = true
-	plugin.install("github/copilot.vim")
+    vim.g.copilot_no_tab_map = true
+    plugin.install("github/copilot.vim")
 end
 
--- ColorScheme
+-- colorscheme
 plugin.install("rktjmp/lush.nvim")
 plugin.install("kimpure/sakura.nvim")
 
