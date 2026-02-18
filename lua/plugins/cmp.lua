@@ -52,10 +52,10 @@ cmp.setup({
 	performance = {
 		debounce = 0,
 		throttle = 0,
-		fetching_timeout = 100,
-		filtering_context_budget = 3,
+		fetching_timeout = 300,
+		filtering_context_budget = 20,
 		confirm_resolve_timeout = 80,
-		async_budget = 1,
+		async_budget = 16,
 		max_view_entries = 50,
 	},
 	mapping = cmp.mapping.preset.insert({
