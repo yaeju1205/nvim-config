@@ -62,3 +62,4 @@ end
 
 packages.plugin = plugin
 _G.packages = packages
+_G.plugin = plugin

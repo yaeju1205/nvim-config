@@ -2,6 +2,7 @@
     "diagnostics.globals": [
         "vim",
         "packages",
+        "plugin",
         "async"
     ]
 }
