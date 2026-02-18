@@ -8,23 +8,23 @@ plugin.install("kimpure/luau-syntax.vim")
 -- Lsp
 local vscode_settings = plugin.install("kimpure/vscode-settings.nvim")("vscode-settings")
 plugin.install("lopi-py/luau-lsp.nvim")("luau-lsp").setup(vim.tbl_deep_extend("force", {
-        platform = {
-            type = "roblox",
-        },
-        types = {
-            roblox_security_level = "PluginSecurity",
-        },
-        completion = {
-            imports = {
-                enabled = true,
-            },
-        },
-        sourcemap = {
-            enabled = true,
-            autogenerate = true,
-            rojo_project_file = "default.project.json",
-            sourcemap_file = "sourcemap.json",
-        },
+	platform = {
+		type = "roblox",
+	},
+	types = {
+		roblox_security_level = "PluginSecurity",
+	},
+	completion = {
+		imports = {
+			enabled = true,
+		},
+	},
+	sourcemap = {
+		enabled = true,
+		autogenerate = true,
+		rojo_project_file = "default.project.json",
+		sourcemap_file = "sourcemap.json",
+	},
 }, vscode_settings.get_settings()["luau-lsp"] or {}))
 
 plugin.install("neovim/nvim-lspconfig")
@@ -92,25 +92,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			return
 		end
 
-        if client.server_capabilities.semanticTokensProvider then
-            async(function()
-                vim.lsp.semantic_tokens.start(args.buf, client.id)
-            end)
-        end
+		if client.server_capabilities.semanticTokensProvider then
+			async(function()
+				vim.lsp.semantic_tokens.start(args.buf, client.id)
+			end)
+		end
 
-        if client.server_capabilities.documentHighlightProvider then
-            async(function()
-                vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-                    buffer = args.buf,
-                    callback = vim.lsp.buf.document_highlight,
-                })
+		if client.server_capabilities.documentHighlightProvider then
+			async(function()
+				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+					buffer = args.buf,
+					callback = vim.lsp.buf.document_highlight,
+				})
 
-                vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
-                    buffer = args.buf,
-                    callback = vim.lsp.buf.clear_references,
-                })
-            end)
-        end
+				vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
+					buffer = args.buf,
+					callback = vim.lsp.buf.clear_references,
+				})
+			end)
+		end
 	end,
 })
-

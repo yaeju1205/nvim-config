@@ -1,21 +1,20 @@
 if vim.g.vscode then
-    return
+	return
 end
 
 require("plugins.core")
 async(function()
-    require("plugins.lsp")
+	require("plugins.lsp")
 end)
 async(function()
-    require("plugins.cmp")
+	require("plugins.cmp")
 end)
 async(function()
-    require("plugins.editor")
+	require("plugins.editor")
 end)
 async(function()
-    require("plugins.explorer")
+	require("plugins.explorer")
 end)
 async(function()
-    require("plugins.finder")
+	require("plugins.finder")
 end)
-
