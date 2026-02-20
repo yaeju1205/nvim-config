@@ -56,7 +56,7 @@ cmp.setup({
 		filtering_context_budget = 20,
 		confirm_resolve_timeout = 80,
 		async_budget = 16,
-		max_view_entries = 50,
+		max_view_entries = 30,
 	},
 	mapping = cmp.mapping.preset.insert({
 		["<Down>"] = cmp.mapping(function(fallback)

@@ -1,5 +1,3 @@
-lua vim.loader.enable()
-
 " File Format
 set encoding=UTF-8
 set fileformat=unix
@@ -109,6 +107,12 @@ vnoremap <silent> < <gv
 vnoremap <silent> > >gv
 
 tnoremap <silent> <ESC> <C-\><C-n>
+
+" Boot native modules
+call native#boot()
+
+" Require Spped Upgrade
+lua async(vim.loader.enable)
 
 " Load Configs
 if exists("g:vscode")

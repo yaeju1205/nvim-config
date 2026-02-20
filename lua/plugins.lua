@@ -1,7 +1,3 @@
-if vim.g.vscode then
-	return
-end
-
 require("plugins.core")
 async(function()
 	require("plugins.lsp")

@@ -89,11 +89,11 @@ nvim_tree.setup({
 			vim.keymap.set("n", "<CR>", function()
 				local node = nvim_tree_api.tree.get_node_under_cursor()
 
-				if not node or not node.parent then
-					return
+				if node or node.parent then
+                    nvim_tree_api.node.open.edit()
 				end
 
-				nvim_tree_api.node.open.edit()
+                nvim_tree_api.tree.toggle()
 			end, {
 				desc = "nvim-tree: Open",
 				buffer = bufnr,

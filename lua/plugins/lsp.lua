@@ -78,7 +78,7 @@ vim.lsp.config("*", {
 		},
 	},
 	flags = {
-		debounce_text_changes = 200,
+		debounce_text_changes = 20,
 	},
 })
 
@@ -94,19 +94,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
             end
 
             if client.server_capabilities.semanticTokensProvider then
-                    vim.lsp.semantic_tokens.start(args.buf, client.id)
+                vim.lsp.semantic_tokens.start(args.buf, client.id)
             end
 
             if client.server_capabilities.documentHighlightProvider then
-                    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-                        buffer = args.buf,
-                        callback = vim.lsp.buf.document_highlight,
-                    })
+                vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+                    buffer = args.buf,
+                    callback = vim.lsp.buf.document_highlight,
+                })
 
-                    vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
-                        buffer = args.buf,
-                        callback = vim.lsp.buf.clear_references,
-                    })
+                vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
+                    buffer = args.buf,
+                    callback = vim.lsp.buf.clear_references,
+                })
             end
         end)
 	end,
