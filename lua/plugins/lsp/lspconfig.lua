@@ -7,9 +7,13 @@ vim.lsp.servers = {
 -- LspConfig
 plugin.install("neovim/nvim-lspconfig")
 
+local capabilities = require("blink.cmp").get_lsp_capabilities()
+capabilities.textDocument.semanticTokens = nil
+
 vim.lsp.config("*", {
     capabilities = require("blink.cmp").get_lsp_capabilities(),
 })
+
 vim.lsp.enable(vim.lsp.servers)
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -22,7 +26,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
             end
 
             if client.server_capabilities.semanticTokensProvider then
-                vim.lsp.semantic_tokens.start(args.buf, client.id)
+                client.server_capabilities.semanticTokensProvider = nil
             end
 
             if client.server_capabilities.documentHighlightProvider then

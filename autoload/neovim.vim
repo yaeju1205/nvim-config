@@ -6,5 +6,5 @@ function neovim#load()
 
     " Load Neovim Plugins
     lua require("packages")
-    lua require("plugins")
+    lua async("plugins")
 endfunction

@@ -48,7 +48,6 @@ nvim_tree.setup({
             nvim_tree_api.config.mappings.default_on_attach(bufnr)
 
             vim.keymap.set("n", "d", function()
-                --- @type nvim_tree.api.Node
                 local node = nvim_tree_api.tree.get_node_under_cursor()
 
                 if not node or not node.absolute_path then

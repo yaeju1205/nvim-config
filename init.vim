@@ -128,7 +128,6 @@ else
     call neovim#load()
 endif
 
-
 " Colors 
 colorscheme mellifluous
 
