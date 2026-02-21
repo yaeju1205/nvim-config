@@ -129,6 +129,7 @@ else
 endif
 
 " Colors 
+syntax on
 colorscheme mellifluous
 
 highlight! link NvimTreeRootFolder NvimTreeHighlights
