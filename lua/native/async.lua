@@ -6,5 +6,5 @@ function _G.async(callback)
         end)
     end
 
-	coroutine.resume(coroutine.create(callback))
+    coroutine.resume(coroutine.create(callback))
 end

@@ -1,19 +1,19 @@
 -- Define Lsp Servers
 vim.lsp.servers = {
-	"lua_ls",
-	"hls",
+    "lua_ls",
+    "hls",
 }
 
 -- LspConfig
 plugin.install("neovim/nvim-lspconfig")
 
 vim.lsp.config("*", {
-	capabilities = require("blink.cmp").get_lsp_capabilities()
+    capabilities = require("blink.cmp").get_lsp_capabilities(),
 })
 vim.lsp.enable(vim.lsp.servers)
 
 vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
+    callback = function(args)
         async(function()
             local client = vim.lsp.get_client_by_id(args.data.client_id)
 
@@ -37,6 +37,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
                 })
             end
         end)
-	end,
+    end,
 })
-

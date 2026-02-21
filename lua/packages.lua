@@ -13,59 +13,59 @@ plugin.directory = vim.fn.expand(vim.fn.stdpath("data") .. "/site/pack/plugins/o
 --- @param repo string
 --- @param spec? Plugin.Spec
 function plugin.install(repo, spec)
-	spec = spec or {}
-	local name = string.match(repo, "^.+/(.+)$")
-	local index = spec.index or plugin.index
-	local directory = (spec.directory or plugin.directory) .. name
-	local branch = spec.branch
+    spec = spec or {}
+    local name = string.match(repo, "^.+/(.+)$")
+    local index = spec.index or plugin.index
+    local directory = (spec.directory or plugin.directory) .. name
+    local branch = spec.branch
     local version = spec.version
 
-	if vim.fn.isdirectory(directory) == 0 then
-		local cmd = { "git", "clone" }
+    if vim.fn.isdirectory(directory) == 0 then
+        local cmd = { "git", "clone" }
 
         if version then
             table.insert(cmd, "--branch")
-			table.insert(cmd, version)
-			table.insert(cmd, "--single-branch")
+            table.insert(cmd, version)
+            table.insert(cmd, "--single-branch")
         elseif branch then
-			table.insert(cmd, "--branch")
-			table.insert(cmd, branch)
+            table.insert(cmd, "--branch")
+            table.insert(cmd, branch)
         else
             table.insert(cmd, "--depth=1")
-		end
+        end
 
-		table.insert(cmd, index .. repo)
-		table.insert(cmd, directory)
+        table.insert(cmd, index .. repo)
+        table.insert(cmd, directory)
 
-		local out = vim.fn.system(cmd)
+        local out = vim.fn.system(cmd)
 
-		if vim.v.shell_error ~= 0 then
-			vim.notify(out, vim.log.levels.ERROR)
-		end
-	end
+        if vim.v.shell_error ~= 0 then
+            vim.notify(out, vim.log.levels.ERROR)
+        end
+    end
 
-	vim.cmd("packadd " .. name)
+    vim.cmd("packadd " .. name)
 
-	return require
+    return require
 end
 
 --- @param name string
 function plugin.uninstall(name)
-	if vim.fn.isdirectory(plugin.directory .. name) == 1 then
-		vim.fn.delete(plugin.directory .. name, "rf")
-	end
+    if vim.fn.isdirectory(plugin.directory .. name) == 1 then
+        vim.fn.delete(plugin.directory .. name, "rf")
+    end
 end
 
 --- @param repo string
 --- @param spec? Plugin.Spec
 function plugin.update(repo, spec)
-	spec = spec or {}
-	local name = string.match(repo, "^.+/(.+)$")
-	local directory = (spec.directory or plugin.directory) .. name
-	if vim.fn.isdirectory(directory) == 1 then
-		vim.fn.delete(plugin.directory .. name, "rf")
-	end
-	return plugin.install(repo, spec)
+    spec = spec or {}
+    local name = string.match(repo, "^.+/(.+)$")
+    local directory = (spec.directory or plugin.directory) .. name
+    if vim.fn.isdirectory(directory) == 1 then
+        vim.fn.delete(plugin.directory .. name, "rf")
+    end
+    return plugin.install(repo, spec)
 end
 
 packages.plugin = plugin
