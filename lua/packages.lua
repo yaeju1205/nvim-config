@@ -8,6 +8,7 @@ plugin.directory = vim.fn.expand(vim.fn.stdpath("data") .. "/site/pack/plugins/o
 --- @field index? string
 --- @field directory? string
 --- @field branch? string
+--- @field version? string
 
 --- @param repo string
 --- @param spec? Plugin.Spec
@@ -17,13 +18,20 @@ function plugin.install(repo, spec)
 	local index = spec.index or plugin.index
 	local directory = (spec.directory or plugin.directory) .. name
 	local branch = spec.branch
+    local version = spec.version
 
 	if vim.fn.isdirectory(directory) == 0 then
-		local cmd = { "git", "clone", "--depth=1" }
+		local cmd = { "git", "clone" }
 
-		if branch then
+        if version then
+            table.insert(cmd, "--branch")
+			table.insert(cmd, version)
+			table.insert(cmd, "--single-branch")
+        elseif branch then
 			table.insert(cmd, "--branch")
 			table.insert(cmd, branch)
+        else
+            table.insert(cmd, "--depth=1")
 		end
 
 		table.insert(cmd, index .. repo)
