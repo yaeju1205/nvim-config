@@ -99,5 +99,5 @@ plugin.install("saghen/blink.cmp", {
 
     sources = {
         default = { "lsp" }
-    }
+    },
 })

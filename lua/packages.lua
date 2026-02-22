@@ -21,7 +21,12 @@ function plugin.install(repo, spec)
     local version = spec.version
 
     if vim.fn.isdirectory(directory) == 0 then
-        local cmd = { "git", "clone" }
+        local cmd = {
+            "git",
+            "clone",
+            "--filter=blob:none",
+            "--depth=1",
+        }
 
         if version then
             table.insert(cmd, "--branch")
@@ -30,14 +35,18 @@ function plugin.install(repo, spec)
         elseif branch then
             table.insert(cmd, "--branch")
             table.insert(cmd, branch)
-        else
-            table.insert(cmd, "--depth=1")
         end
 
         table.insert(cmd, index .. repo)
         table.insert(cmd, directory)
 
-        local out = vim.fn.system(cmd)
+        local result = vim.system(cmd, { text = true }):wait()
+
+        if result.code ~= 0 then
+            vim.notify(result.stderr, vim.log.levels.ERROR)
+        end
+
+        local out = vim.system(cmd)
 
         if vim.v.shell_error ~= 0 then
             vim.notify(out, vim.log.levels.ERROR)

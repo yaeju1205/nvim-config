@@ -1,4 +1,4 @@
--- LuauLsp
+-- Luau Lsp
 local vscode_settings = plugin.install("kimpure/vscode-settings.nvim")("vscode-settings")
 plugin.install("lopi-py/luau-lsp.nvim")("luau-lsp").setup(vim.tbl_deep_extend("force", {
     platform = {

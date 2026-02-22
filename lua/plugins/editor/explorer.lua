@@ -90,9 +90,8 @@ nvim_tree.setup({
 
                 if node or node.parent then
                     nvim_tree_api.node.open.edit()
+                    nvim_tree_api.tree.close()
                 end
-
-                nvim_tree_api.tree.toggle()
             end, {
                 desc = "nvim-tree: Open",
                 buffer = bufnr,
@@ -108,3 +107,4 @@ vim.keymap.set("n", "<leader>e", require("nvim-tree.api").tree.toggle, {
     silent = true,
     desc = "Toggle nvim-tree",
 })
+require("nvim-tree.api").tree.open()

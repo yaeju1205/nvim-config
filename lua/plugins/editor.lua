@@ -1,3 +1,3 @@
-require("plugins.editor.explorer")
-require("plugins.editor.style")
-require("plugins.editor.finder")
+async("plugins.editor.style")
+async("plugins.editor.finder")
+async("plugins.editor.explorer")

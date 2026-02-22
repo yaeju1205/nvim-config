@@ -1,3 +1,4 @@
+-- Notify
 local notify = plugin.install("rcarriga/nvim-notify")("notify")
 notify.setup({
     timeout = 0,
@@ -77,3 +78,5 @@ plugin.install("ramojus/mellifluous.nvim")("mellifluous").setup({
     style = "mountain",
     dim_inactive = true,
 })
+vim.cmd("colorscheme mellifluous")
+vim.cmd("highlight! link NvimTreeRootFolder NvimTreeHighlights")
