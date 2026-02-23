@@ -46,6 +46,8 @@ plugin.install("saghen/blink.cmp", {
         enabled = true,
         keymap = {
             preset = "cmdline",
+            ["<Right>"] = false,
+            ["<Left>"] = false,
         },
         completion = {
             list = {

@@ -7,9 +7,6 @@ vim.lsp.servers = {
 -- LspConfig
 plugin.install("neovim/nvim-lspconfig")
 
-local capabilities = require("blink.cmp").get_lsp_capabilities()
-capabilities.textDocument.semanticTokens = nil
-
 vim.lsp.config("*", {
     capabilities = require("blink.cmp").get_lsp_capabilities(),
 })

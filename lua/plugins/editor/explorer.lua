@@ -107,4 +107,3 @@ vim.keymap.set("n", "<leader>e", require("nvim-tree.api").tree.toggle, {
     silent = true,
     desc = "Toggle nvim-tree",
 })
-require("nvim-tree.api").tree.open()
