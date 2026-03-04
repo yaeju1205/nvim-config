@@ -20,5 +20,8 @@ plugin.install("lopi-py/luau-lsp.nvim")("luau-lsp").setup(vim.tbl_deep_extend("f
     },
 }, vscode_settings.get_settings()["luau-lsp"] or {}))
 
+-- Haskell Tools
+plugin.install("mrcjkb/haskell-tools.nvim")("haskell-tools")
+
 -- Package Manager
 plugin.install("mason-org/mason.nvim")("mason").setup()

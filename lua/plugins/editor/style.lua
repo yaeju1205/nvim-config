@@ -78,5 +78,8 @@ plugin.install("ramojus/mellifluous.nvim")("mellifluous").setup({
     style = "mountain",
     dim_inactive = true,
 })
+plugin.install("cranberry-clockworks/coal.nvim")
+
 vim.cmd("colorscheme mellifluous")
+-- vim.cmd("colorschme coal")
 vim.cmd("highlight! link NvimTreeRootFolder NvimTreeHighlights")

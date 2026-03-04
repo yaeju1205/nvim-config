@@ -1,7 +1,9 @@
 -- Define Lsp Servers
 vim.lsp.servers = {
     "lua_ls",
+    "ts_ls",
     "hls",
+    "rust_analyzer"
 }
 
 -- LspConfig
@@ -40,3 +42,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end)
     end,
 })
+
+-- vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration)
+-- vim.keymap.set("n", "gr", vim.lsp.buf.references)
+-- vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
+-- vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)

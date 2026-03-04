@@ -1,3 +1,3 @@
 require("plugins.core")
-async("plugins.lsp")
-async("plugins.editor")
+require("plugins.lsp")
+require("plugins.editor")
