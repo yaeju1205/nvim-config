@@ -1,0 +1,6 @@
+require("yaeju.global")
+require("yaeju.options")
+require("yaeju.keymaps")
+require("yaeju.diagnostic")
+require("yaeju.autocmds")
+require("yaeju.plugins")

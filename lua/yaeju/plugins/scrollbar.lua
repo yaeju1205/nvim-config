@@ -1,0 +1,5 @@
+vim.plugin.namespace("yaeju-scrollbar", function()
+    vim.plugin.install("petertriho/nvim-scrollbar")(function()
+        require("scrollbar").setup({})
+    end)
+end)

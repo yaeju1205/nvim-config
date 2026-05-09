@@ -1,0 +1,5 @@
+vim.plugin.namespace("yaeju-colorscheme", function()
+    vim.plugin.install("yaeju1205/sakura.vim")(function()
+        vim.cmd.colorscheme("sakura")
+    end)
+end)
