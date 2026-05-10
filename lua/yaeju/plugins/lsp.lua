@@ -1,5 +1,5 @@
 vim.plugin.namespace("yaeju-lsp", function()
-    vim.lsp.servers = { "lua_ls", "rust_analyzer" }
+    vim.lsp.servers = { "clangd", "lua_ls", "rust_analyzer" }
 
     vim.plugin.install("mason-org/mason.nvim")(function()
         require("mason").setup()

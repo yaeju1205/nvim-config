@@ -25,7 +25,18 @@ vim.plugin.namespace("yaeju-finder", function()
                 }
             },
             fzf_opts = {
-                ['--color'] = 'fg:#B49FA3,bg:-1,hl:#B38B9B,fg+:#D6C1C5,bg+:#302D31,hl+:#C58EA7,pointer:#A381A3,info:#665B66,prompt:#B38B9B,marker:#C07BC0'
+                ["--color"] = ([[
+                    fg:#B49FA3,
+                    bg:-1,
+                    hl:#B38B9B,
+                    fg+:#D6C1C5,
+                    bg+:#302D31,
+                    hl+:#C58EA7,
+                    pointer:#A381A3,
+                    info:#665B66,
+                    prompt:#B38B9B,
+                    marker:#C07BC0
+                ]]):gsub("\n", ""):gsub(" ", "")
             }
         })
 

@@ -6,10 +6,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true })
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true })
 
-        vim.keymap.set("n", '[d', function()
+        vim.keymap.set("n", "[d", function()
             vim.diagnostic.jump({count = -1, float = true})
         end)
-        vim.keymap.set("n", ']d', function()
+        vim.keymap.set("n", "]d", function()
             vim.diagnostic.jump({count = 1, float = true})
         end)
         vim.keymap.set("n", "gl", vim.diagnostic.open_float)
