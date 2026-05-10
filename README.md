@@ -8,10 +8,19 @@ windows 설정에 맞춘 설정은 `yaeju1205/nvim-config` 와 `yaeju1205/nvim` 
 
 ```sh
 winget install fzf
+
+# fzf 를 더욱 빠르게 사용하고싶다면
+winget install fd
 ```
 
 추가로 사용할수 있는 툴은 ripgrep 이 있어요
 
 ```sh
 winget install ripgrep
+```
+
+cachy os (arch linux)
+
+```
+sudo pacman -S fzf ripgrep fd
 ```

@@ -1,0 +1,5 @@
+vim.plugin.namespace("yaeju-discord", function()
+    vim.plugin.install("vyfor/cord.nvim")(function()
+        require("cord").setup({})
+    end)
+end)
