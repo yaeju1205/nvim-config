@@ -31,7 +31,10 @@ vim.opt.equalalways = false
 vim.opt.iskeyword:remove("-")
 
 vim.opt.list = true
-vim.opt.listchars = { tab = "│ ", space = " ", trail = " " }
+vim.opt.listchars = {
+    tab = "→ ",
+    trail = '·',
+}
 
 vim.opt.swapfile = false
 vim.opt.hidden = true

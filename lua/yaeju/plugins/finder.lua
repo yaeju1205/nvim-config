@@ -49,6 +49,14 @@ vim.plugin.namespace("yaeju-finder", function()
         local oil = require("oil")
 
         oil.setup({
+            view_options = {
+                is_always_hidden = function(name, bufnr)
+                    return 
+                        name == ".git" or
+                        name == "node_modules" or
+                        name == "target"
+                end,
+            },
             keymaps = {
                 ["<esc>"] = { "actions.close", mode = "n" },
             },
@@ -62,6 +70,6 @@ vim.plugin.namespace("yaeju-finder", function()
             },
         })
 
-        vim.keymap.set("n", "-", oil.open_float, { desc = "Open parent directory" })
+        vim.keymap.set("n", "<leader>e", oil.open_float, { desc = "Oil Open Directory" })
     end)
 end)

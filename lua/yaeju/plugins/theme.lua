@@ -10,7 +10,12 @@ vim.plugin.namespace("yaeju-theme", function()
             vim.cmd.colorscheme("sakura")
 
             require("lualine").setup({
-                options = require("lualine.themes.sakura")
+                options = require("lualine.themes.sakura"),
+                sections = {
+                    lualine_c = {
+                        { "filename", path = 3 }
+                    }
+                }
             })
 
             require("fzf-lua").setup({

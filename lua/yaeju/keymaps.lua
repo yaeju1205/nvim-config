@@ -10,3 +10,5 @@ vim.keymap.set("v", "<", "<gv", { silent = true })
 vim.keymap.set("v", ">", ">gv", { silent = true })
 
 vim.keymap.set("t", "<ESC>", [[<C-\><C-n>]], { silent = true })
+
+vim.keymap.set("n", "<leader>bb", "<C-6>", { silent = true })
