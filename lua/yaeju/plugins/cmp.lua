@@ -8,6 +8,11 @@ vim.plugin.namespace("yaeju-cmp", function()
         local cmp = require("blink.cmp")
 
         local capabilities = cmp.get_lsp_capabilities()
+        capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+        }
+
         vim.lsp.config("*", {
             capabilities = capabilities,
         })

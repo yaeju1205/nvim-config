@@ -12,7 +12,7 @@ vim.opt.scrolloff = 10
 
 vim.opt.updatetime = 500
 
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 
 vim.opt.incsearch = true
 vim.opt.ignorecase = true
@@ -36,11 +36,13 @@ vim.opt.listchars = {
     trail = '·',
 }
 
+vim.opt.statuscolumn = "│%C %s%l "
+
 vim.opt.swapfile = false
 vim.opt.hidden = true
 vim.opt.shadafile = "NONE"
 
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = "yes:1"
 
 vim.opt.errorbells = false
 vim.opt.visualbell = false
