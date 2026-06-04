@@ -26,7 +26,7 @@ vim.plugin.namespace("yaeju-statusline", function()
                 "%m%r",
                 "%=",
                 highlight_string("DiagnosticError", "  " .. (diag_count[1] or 0)),
-                "   ",
+                "  ",
                 highlight_string("DiagnosticWarn", "  " .. (diag_count[2] or 0)),
                 "  ",
                 "| " .. file_icon_text .. " " .. file_type .. " ",
