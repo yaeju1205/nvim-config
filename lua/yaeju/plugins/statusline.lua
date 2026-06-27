@@ -10,6 +10,13 @@ vim.plugin.namespace("yaeju-statusline", function()
             return "%#" .. hl .. "#" .. str .. "%*"
         end
 
+        local file_type_map = {
+            ["typescriptreact"] = "tsx",
+            ["javascriptreact"] = "jsx",
+            ["typescript"] = "ts",
+            ["javascript"] = "js",
+        }
+
         vim.statusline = {}
         vim.statusline.render = function()
             local file_name = vim.fn.expand("%:t")
@@ -18,10 +25,12 @@ vim.plugin.namespace("yaeju-statusline", function()
             local file_type = vim.bo.filetype
             if file_type == "" then
                 file_type = "text"
+            else
+                file_type = file_type_map[file_type] or file_type
             end
 
             local file_icon_text = highlight_string(file_icon_hl, file_icon or "")
-            local file_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
+            local file_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:.")
 
             local diag_count = vim.diagnostic.count()
 
@@ -41,10 +50,10 @@ vim.plugin.namespace("yaeju-statusline", function()
                 highlight_string("DiagnosticError", "  " .. (diag_count[1] or 0)),
                 "  ",
                 highlight_string("DiagnosticWarn", "  " .. (diag_count[2] or 0)),
-                "  ",
-                "| " .. file_icon_text .. " " .. file_type .. " ",
-                "| %p%% ",
-                "| %l:%c",
+                " ",
+                " " .. file_icon_text .. " " .. file_type .. " ",
+                " %p%% ",
+                " %l:%c",
                 "  ",
             })
         end
