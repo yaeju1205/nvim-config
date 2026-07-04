@@ -19,9 +19,38 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.rs", "*.go" },
+    pattern = {
+        "*.rs",
+        "*.go",
+        "*.js", "*.ts", "*.jsx", "*.tsx",
+    },
     callback = function()
         vim.lsp.buf.format({ async = false })
         vim.snippet.stop()
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.s", "*.S" },
+    callback = function()
+        vim.bo.filetype = "asm"
+    end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+    pattern = "OilActionsPost",
+    callback = function(args)
+        local action = args.data.action
+        if action and action.type == "delete" then
+            local entry_path = action.entry.path or action.entry.name
+
+            for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+                local buf_name = vim.api.nvim_buf_get_name(bufnr)
+                if buf_name == entry_path then
+                    vim.api.nvim_buf_delete(bufnr, { force = true })
+                    break
+                end
+            end
+        end
     end,
 })

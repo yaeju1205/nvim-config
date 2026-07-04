@@ -4,6 +4,7 @@ vim.plugin.namespace("yaeju-lsp", function()
         "lua_ls",
         "rust_analyzer",
         "tsgo",
+        "eslint",
         "luau_lsp",
         "gopls",
         "zls"

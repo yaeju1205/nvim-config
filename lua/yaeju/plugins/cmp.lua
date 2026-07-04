@@ -58,27 +58,6 @@ vim.plugin.namespace("yaeju-cmp", function()
                     },
                 },
             },
-            cmdline = {
-                enabled = true,
-                keymap = {
-                    preset = "cmdline",
-                    ["<Right>"] = false,
-                    ["<Left>"] = false,
-                },
-                completion = {
-                    list = {
-                        selection = {
-                            preselect = false
-                        }
-                    },
-                    menu = {
-                        auto_show = false,
-                    },
-                    ghost_text = {
-                        enabled = true
-                    },
-                },
-            },
             appearance = {
                 kind_icons = {
                     Text = "",

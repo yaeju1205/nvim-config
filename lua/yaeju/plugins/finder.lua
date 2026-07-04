@@ -21,11 +21,14 @@ vim.plugin.namespace("yaeju-finder", function()
             winopts = {
                 backdrop = 70,
                 border = "single",
+                width = 0.7,
+                height = 0.9,
                 preview = {
                     border = "single",
                     delay = 5,
                     title_pos = "left",
-                    vertical = "down:40%",
+                    layout = "vertical",
+                    vertical = "down:30%",
                     winopts = {
                         number = true,
                         relativenumber = false,
