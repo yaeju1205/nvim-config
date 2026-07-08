@@ -22,6 +22,19 @@ vim.plugin.namespace("yaeju-discord", function()
                 end
             },
 
+            idle = {
+                enabled = true,
+                timeout = 300000,
+                show_status = true,
+                ignore_focus = true,
+                unidle_on_focus = true,
+                smart_idle = true,
+                details = '자는중 골골골골..',
+                state = nil,
+                tooltip = '자는중',
+                icon = "https://cdn.picrew.me/shareImg/org/202606/2806659_EyV1GWtY.png",
+            },
+
             assets = {
                 [".rs"] = {
                     icon = "rust",

@@ -1,5 +1,5 @@
 vim.plugin.namespace("yaeju-theme", function()
-    vim.plugin.disable_namespace("yaeju-theme-sakura")
+    -- vim.plugin.disable_namespace("yaeju-theme-sakura")
     vim.plugin.namespace("yaeju-theme-sakura", function()
         vim.plugin.install("anAcc22/sakura.nvim", {
             requires = {
@@ -36,7 +36,7 @@ vim.plugin.namespace("yaeju-theme", function()
         end)
     end)
 
-    -- vim.plugin.disable_namespace("yaeju-theme-koda")
+    vim.plugin.disable_namespace("yaeju-theme-koda")
     vim.plugin.namespace("yaeju-theme-koda", function()
         vim.plugin.install("oskarnurm/koda.nvim")(function()
             vim.cmd.colorscheme("koda")

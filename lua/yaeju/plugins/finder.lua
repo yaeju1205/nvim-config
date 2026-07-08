@@ -13,45 +13,47 @@ vim.plugin.namespace("yaeju-finder", function()
         fd_ignore_opt = fd_ignore_opt .. "--exclude " .. file .. " "
         find_ignore_opt = find_ignore_opt .. "-not -path '*/" .. file .. "/*' "
     end
-
     vim.plugin.install("ibhagwan/fzf-lua")(function()
-        local fzf_lua = require("fzf-lua")
-
-        fzf_lua.setup({
-            winopts = {
-                backdrop = 70,
+        local winopts = {
+            backdrop = 70,
+            border = "none",
+            width = 0.7,
+            height = 0.5,
+            preview = {
+                hidden = "hidden",
                 border = "single",
-                width = 0.7,
-                height = 0.9,
-                preview = {
-                    border = "single",
-                    delay = 5,
-                    title_pos = "left",
-                    layout = "vertical",
-                    vertical = "down:30%",
-                    winopts = {
-                        number = true,
-                        relativenumber = false,
-                        cursorline = true,
-                        cursorlineopt = "both",
-                        cursorcolumn = false,
-                        signcolumn = "no",
-                        list = false,
-                        foldenable = false,
-                        foldmethod = "manual",
-                        scrolloff = 0,
-                        winblend = 0,
-                    }
+                delay = 5,
+                title_pos = "left",
+                layout = "horizontal",
+                winopts = {
+                    number = true,
+                    relativenumber = false,
+                    cursorline = true,
+                    cursorlineopt = "both",
+                    cursorcolumn = false,
+                    signcolumn = "no",
+                    list = true,
+                    foldenable = false,
+                    foldmethod = "manual",
+                    scrolloff = 0,
+                    winblend = 0,
                 }
-            },
+            }
+        }
+
+        local fzf_lua = require("fzf-lua")
+        fzf_lua.setup({
+            winopts = winopts,
             diagnostics = {
                 multiline = true,
             }
         })
 
+
         vim.keymap.set("n", "<leader>fg", fzf_lua.live_grep, { desc = "FZF Live Grep" })
         vim.keymap.set("n", "<leader>ff", function()
             fzf_lua.files({
+                winopts = winopts,
                 fd_opts = string.gsub(
                     "--color=never --type f --hidden --follow"
                     .. fd_ignore_opt,
