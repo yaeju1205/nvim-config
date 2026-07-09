@@ -11,11 +11,21 @@ vim.plugin.namespace("yaeju-fold", function()
 
         vim.opt.fillchars = {
             fold = " ",
-            foldopen = "",
             foldsep = " ",
             foldinner = " ",
-            foldclose = ""
+            foldopen = "",
+            foldclose = "",
         }
+
+        if vim.g.icons_style == "ascii" then
+            vim.opt.fillchars = {
+                fold = " ",
+                foldsep = " ",
+                foldinner = " ",
+                foldopen = "O",
+                foldclose = "C",
+            }
+        end
 
         require("ufo").setup({
             provider_selector = function(bufnr, filetype, buftype)

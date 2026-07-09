@@ -1,7 +1,7 @@
 vim.plugin.namespace("yaeju-statusline", function()
     vim.plugin.install("nvim-mini/mini.icons")(function()
         require("mini.icons").setup({
-            style = "glyph"
+            style = vim.g.icons_style
         })
 
         local icons = require("mini.icons")
@@ -21,6 +21,9 @@ vim.plugin.namespace("yaeju-statusline", function()
         vim.statusline.render = function()
             local file_name = vim.fn.expand("%:t")
             local file_icon, file_icon_hl = icons.get("file", file_name)
+            if not file_icon then
+                file_icon, file_icon_hl = icons.get("default", "file")
+            end
 
             local file_type = vim.bo.filetype
             if file_type == "" then
@@ -29,18 +32,23 @@ vim.plugin.namespace("yaeju-statusline", function()
                 file_type = file_type_map[file_type] or file_type
             end
 
-            local file_icon_text = highlight_string(file_icon_hl, file_icon or "")
+            local file_icon_text = highlight_string(file_icon_hl, file_icon)
             local file_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:.")
+
+            local branch = vim.b.gitsigns_status_dict
+            local branch_text = ""
+            if branch and branch.head and branch.head ~= "" then
+                local branch_icon, branch_icon_hl = icons.get("directory", ".git")
+
+                branch_text = highlight_string(branch_icon_hl, branch_icon) .. " " .. branch.head
+            end
 
             local diag_count = vim.diagnostic.count()
             local error_count, warn_count = diag_count[1], diag_count[2]
             error_count, warn_count = error_count or 0, warn_count or 0
 
-            local branch = vim.b.gitsigns_status_dict
-            local branch_text = ""
-            if branch and branch.head and branch.head ~= "" then
-                branch_text = " " .. branch.head
-            end
+            local error_icon = icons.get("lsp", "error")
+            local warn_icon = icons.get("lsp", "warn")
 
             return table.concat({
                 "  ",
@@ -49,9 +57,9 @@ vim.plugin.namespace("yaeju-statusline", function()
                 file_icon_text .. " " .. file_path,
                 "%m%r",
                 "%=",
-                highlight_string("DiagnosticError", "  " .. error_count),
+                highlight_string("DiagnosticError", error_icon .. " " .. error_count),
                 "  ",
-                highlight_string("DiagnosticWarn", "  " .. warn_count),
+                highlight_string("DiagnosticWarn", warn_icon .. " " .. warn_count),
                 " ",
                 " " .. file_icon_text .. " " .. file_type .. " ",
                 " %p%% ",
