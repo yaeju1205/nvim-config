@@ -35,10 +35,18 @@ vim.opt.equalalways = false
 vim.opt.iskeyword:remove("-")
 
 vim.opt.list = true
-vim.opt.listchars = {
-    tab = "→ ",
-    trail = '·',
-}
+
+if vim.g.icons_style == "ascii" then
+    vim.opt.listchars = {
+        tab = "> ",
+        trail = '·',
+    }
+else
+    vim.opt.listchars = {
+        tab = "→ ",
+        trail = '·',
+    }
+end
 
 vim.opt.statuscolumn = "│%C %s%l "
 

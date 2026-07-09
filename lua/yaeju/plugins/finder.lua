@@ -19,6 +19,7 @@ vim.plugin.namespace("yaeju-finder", function()
             border = "none",
             width = 0.7,
             height = 0.5,
+            row = 0.4,
             preview = {
                 hidden = "hidden",
                 border = "single",

@@ -47,8 +47,8 @@ vim.plugin.namespace("yaeju-statusline", function()
             local error_count, warn_count = diag_count[1], diag_count[2]
             error_count, warn_count = error_count or 0, warn_count or 0
 
-            local error_icon = icons.get("lsp", "error")
-            local warn_icon = icons.get("lsp", "warn")
+            local error_icon = vim.g.icons_style == "ascii" and "E" or " "
+            local warn_icon = vim.g.icons_style == "ascii" and "W" or " "
 
             return table.concat({
                 "  ",
