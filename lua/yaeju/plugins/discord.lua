@@ -37,14 +37,10 @@ vim.plugin.namespace("yaeju-discord", function()
 
             assets = {
                 [".rs"] = {
-                    icon = "rust",
                     tooltip = "i like this language",
-                    text = "override - teto"
                 },
                 [".hs"] = {
-                    icon = "haskell",
                     tooltip = "i like this language",
-                    text = "override - teto"
                 },
             }
         })
