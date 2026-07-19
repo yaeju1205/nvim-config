@@ -1,9 +1,9 @@
 vim.plugin.namespace("yaeju-theme", function()
-    -- vim.plugin.disable_namespace("yaeju-theme-sakura")
     vim.plugin.namespace("yaeju-theme-sakura", function()
         vim.plugin.install("anAcc22/sakura.nvim", {
             requires = {
                 { origin = "rktjmp/lush.nvim" },
+                { origin = "ibhagwan/fzf-lua" },
             }
         })(function()
             vim.cmd.colorscheme("sakura")

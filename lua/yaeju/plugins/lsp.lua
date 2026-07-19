@@ -7,6 +7,8 @@ vim.plugin.namespace("yaeju-lsp", function()
         "eslint",
         "luau_lsp",
         "gopls",
+        "perlnavigator",
+        "qmlls",
         "zls"
     }
 

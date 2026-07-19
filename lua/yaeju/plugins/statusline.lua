@@ -1,11 +1,5 @@
 vim.plugin.namespace("yaeju-statusline", function()
     vim.plugin.install("nvim-mini/mini.icons")(function()
-        require("mini.icons").setup({
-            style = vim.g.icons_style
-        })
-
-        local icons = require("mini.icons")
-
         local function highlight_string(hl, str)
             return "%#" .. hl .. "#" .. str .. "%*"
         end
@@ -20,9 +14,9 @@ vim.plugin.namespace("yaeju-statusline", function()
         vim.statusline = {}
         vim.statusline.render = function()
             local file_name = vim.fn.expand("%:t")
-            local file_icon, file_icon_hl = icons.get("file", file_name)
+            local file_icon, file_icon_hl = vim.icons.get("file", file_name)
             if not file_icon then
-                file_icon, file_icon_hl = icons.get("default", "file")
+                file_icon, file_icon_hl = vim.icons.get("default", "file")
             end
 
             local file_type = vim.bo.filetype
@@ -38,7 +32,7 @@ vim.plugin.namespace("yaeju-statusline", function()
             local branch = vim.b.gitsigns_status_dict
             local branch_text = ""
             if branch and branch.head and branch.head ~= "" then
-                local branch_icon, branch_icon_hl = icons.get("directory", ".git")
+                local branch_icon, branch_icon_hl = vim.icons.get("directory", ".git")
 
                 branch_text = highlight_string(branch_icon_hl, branch_icon) .. " " .. branch.head
             end

@@ -8,3 +8,10 @@ vim.g.icons_style = "glyph"
 if vim.env.TERMUX_VERSION then
     vim.g.icons_style = "ascii"
 end
+
+vim.g.find_ignore_files = {
+    ".git",
+    ".zig-cache",
+    "target",
+    "node_modules",
+}
