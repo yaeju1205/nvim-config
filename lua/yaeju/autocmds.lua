@@ -1,5 +1,7 @@
 vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function()
+    callback = function(args)
+        vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { silent = true })
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { silent = true })
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { silent = true })
