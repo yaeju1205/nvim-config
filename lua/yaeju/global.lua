@@ -14,4 +14,5 @@ vim.g.find_ignore_files = {
     ".zig-cache",
     "target",
     "node_modules",
+    ".direnv",
 }

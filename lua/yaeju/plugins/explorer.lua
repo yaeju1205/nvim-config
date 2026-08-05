@@ -26,6 +26,17 @@ vim.plugin.namespace("yaeju-explorer", function()
             },
         })
 
-        vim.keymap.set("n", "<leader>e", oil.open_float, { desc = "Oil Open Directory" })
+        vim.api.nvim_create_user_command(
+            "Ex",
+            "Oil",
+            { desc = "oil.nvim: Open expolorer" }
+        )
+
+        vim.keymap.set(
+            "n",
+            "<leader>e",
+            oil.open_float,
+            { desc = "oil.nvim: Open float expolorer" }
+        )
     end
 end)
