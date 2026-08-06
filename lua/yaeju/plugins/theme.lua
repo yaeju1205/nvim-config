@@ -1,28 +1,37 @@
 vim.plugin.namespace("yaeju-theme", function()
-    vim.plugin.namespace("yaeju-theme-sakura", function()
-        vim.plugin.install("anAcc22/sakura.nvim", {
+    vim.plugin.namespace("yaeju-theme-blossom", function()
+        vim.plugin.install("yaeju1205/blossom.vim", {
             requires = {
-                { origin = "rktjmp/lush.nvim" },
                 { origin = "ibhagwan/fzf-lua" },
             }
         })(function()
-            vim.cmd.colorscheme("sakura")
+            vim.cmd.colorscheme("blossom")
+
+            local function fg(group)
+                local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+                return ok and hl.fg and string.format("#%06x", hl.fg) or nil
+            end
+
+            local function bg(group)
+                local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+                return ok and hl.bg and string.format("#%06x", hl.bg) or nil
+            end
 
             require("fzf-lua").setup({
                 fzf_opts = {
-                    ["--color"] = ([[
-                        fg:#B49FA3,
-                        bg:-1,
-                        hl:#B38B9B,
-                        fg+:#D6C1C5,
-                        bg+:#302D31,
-                        hl+:#C58EA7,
-                        pointer:#A381A3,
-                        info:#665B66,
-                        prompt:#B38B9B,
-                        marker:#C07BC0
-                    ]]):gsub("\n", ""):gsub(" ", "")
-                }
+                    ["--color"] = table.concat({
+                        "fg:" .. (fg("Normal")),
+                        "bg:-1",
+                        "hl:" .. (fg("Keyword") or fg("Statement")),
+                        "fg+:" .. (fg("Normal")),
+                        "bg+:" .. (bg("Visual") or bg("CursorLine")),
+                        "hl+:" .. (fg("Function") or fg("Keyword")),
+                        "pointer:" .. (fg("Identifier")),
+                        "info:" .. (fg("Comment")),
+                        "prompt:" .. (fg("Keyword")),
+                        "marker:" .. (fg("String")),
+                    }, ",")
+                },
             })
         end)
 
