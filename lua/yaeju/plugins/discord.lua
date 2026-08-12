@@ -2,24 +2,14 @@ vim.plugin.namespace("yaeju-discord", function()
     vim.plugin.install("vyfor/cord.nvim")(function()
         require("cord").setup({
             display = {
-                theme = "classic"
+                theme = "classic",
+                swap_icons = true,
             },
 
             editor = {
                 client = "vim",
-                tooltip ="i love vscode and zed",
-                icon = "https://cdn.picrew.me/shareImg/org/202606/2806659_EyV1GWtY.png"
-            },
-
-            text = {
-                default = "nyang??",
-                workspace = "nyaang..",
-                editing = function(opts)
-                    return string.format("nyang nyang in %s", opts.filename)
-                end,
-                file_browser = function(opts)
-                    return string.format("nyangggg in %s", opts.tooltip)
-                end
+                tooltip ="연구중..",
+                icon = "https://majotabi.jp/assets/special/twitter/ic/majo-tw-ic_8.png"
             },
 
             idle = {
@@ -29,19 +19,17 @@ vim.plugin.namespace("yaeju-discord", function()
                 ignore_focus = true,
                 unidle_on_focus = true,
                 smart_idle = true,
-                details = '자는중 골골골골..',
+                details = '골골골골..',
                 state = nil,
                 tooltip = '자는중',
-                icon = "https://cdn.picrew.me/shareImg/org/202606/2806659_EyV1GWtY.png",
+                icon = "https://majotabi.jp/assets/special/twitter/hd/majo-tw-hd_4.jpg",
             },
 
-            assets = {
-                [".rs"] = {
-                    tooltip = "i like this language",
-                },
-                [".hs"] = {
-                    tooltip = "i like this language",
-                },
+            extensions = {
+                persistent_timer = {
+                    scope = 'global',
+                    save_interval = 30,
+                }
             }
         })
     end)

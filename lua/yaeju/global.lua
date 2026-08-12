@@ -12,6 +12,7 @@ end
 vim.g.find_ignore_files = {
     ".git",
     ".zig-cache",
+    "zig-out",
     "target",
     "node_modules",
     ".direnv",

@@ -45,6 +45,7 @@ vim.plugin.namespace("yaeju-theme", function()
         end)
     end)
 
+    vim.plugin.disable_namespace("yaeju-theme-koda")
     vim.plugin.namespace("yaeju-theme-koda", function()
         vim.plugin.install("oskarnurm/koda.nvim")(function()
             vim.cmd.colorscheme("koda")
