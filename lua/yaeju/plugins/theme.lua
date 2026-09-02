@@ -1,4 +1,5 @@
 vim.plugin.namespace("yaeju-theme", function()
+    -- vim.plugin.disable_namespace("yaeju-theme-blossom")
     vim.plugin.namespace("yaeju-theme-blossom", function()
         vim.plugin.install("yaeju1205/blossom.vim", {
             requires = {

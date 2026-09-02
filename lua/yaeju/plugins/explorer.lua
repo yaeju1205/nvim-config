@@ -18,7 +18,7 @@ vim.plugin.namespace("yaeju-explorer", function()
             },
             float = {
                 padding = 2,
-                border = "single",
+                border = vim.g.border_style,
                 win_options = {
                     winhighlight = "NormalFloat:Normal,FloatBorder:Normal",
                     winblend = 0,

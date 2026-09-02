@@ -7,5 +7,7 @@ vim.plugin.namespace("yaeju-pairs", function()
 
     vim.plugin.install("windwp/nvim-autopairs")(function()
         require("nvim-autopairs").setup()
+
+        require('nvim-autopairs').remove_rule('`')
     end)
 end)

@@ -1,7 +1,5 @@
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
-        vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
-
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { silent = true })
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { silent = true })
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { silent = true })
@@ -17,6 +15,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { silent = true })
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function(args)
+        vim.opt_local.formatoptions:remove({ "c", "r", "o" })
     end,
 })
 

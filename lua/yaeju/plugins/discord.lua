@@ -1,3 +1,6 @@
+if not string.find(vim.fn.getcwd(), vim.g.project_directory) then
+    vim.plugin.disable_namespace("yaeju-discord")
+end
 vim.plugin.namespace("yaeju-discord", function()
     vim.plugin.install("vyfor/cord.nvim")(function()
         require("cord").setup({

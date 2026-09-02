@@ -10,13 +10,13 @@ vim.plugin.namespace("yaeju-finder", function()
     vim.plugin.install("ibhagwan/fzf-lua")(function()
         local winopts = {
             backdrop = 70,
-            border = "none",
+            border = vim.g.border_style,
             width = 0.7,
             height = 0.5,
             row = 0.4,
             preview = {
                 hidden = "hidden",
-                border = "single",
+                border = vim.g.border_style,
                 delay = 5,
                 title_pos = "left",
                 layout = "horizontal",

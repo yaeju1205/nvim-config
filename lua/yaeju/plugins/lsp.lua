@@ -1,4 +1,6 @@
 vim.plugin.namespace("yaeju-lsp", function()
+    vim.lsp.inlay_hint.enable(true)
+
     vim.lsp.servers = {
         "clangd",
         "lua_ls",
