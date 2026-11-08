@@ -20,8 +20,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
-    callback = function(args)
+    callback = function()
         vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+    end,
+})
+
+vim.api.nvim_create_autocmd("BufReadPre", {
+    pattern = { "*.o" },
+    callback = function()
+        vim.opt_local.binary = true
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+    pattern = { "*.o" },
+    callback = function()
+        if vim.opt_local.binary then
+            vim.cmd([[%!xxd]])
+            vim.opt_local.filetype = "xxd"
+            vim.bo.modified = false
+        end
     end,
 })
 

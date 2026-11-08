@@ -2,8 +2,8 @@ vim.plugin.namespace("yaeju-lsp", function()
     vim.lsp.inlay_hint.enable(true)
 
     vim.lsp.servers = {
-        "arduino_language_server",
-        "clangd",
+        -- "arduino_language_server",
+        -- "clangd",
         "lua_ls",
         "rust_analyzer",
         "tsgo",
