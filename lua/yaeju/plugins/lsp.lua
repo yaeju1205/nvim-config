@@ -8,7 +8,7 @@ vim.plugin.namespace("yaeju-lsp", function()
         "rust_analyzer",
         "tsgo",
         "eslint",
-        "luau_lsp",
+        "luau-lsp",
         "gopls",
         "perlnavigator",
         "qmlls",

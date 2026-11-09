@@ -7,19 +7,19 @@ vim.plugin.namespace("yaeju-draw", function()
 
                 vim.cmd("setlocal ve=all")
 
-                vim.keymap.set("n", "J", "<C-v>j:VBox<CR>", { noremap = true, silent = true })
-                vim.keymap.set("n", "K", "<C-v>k:VBox<CR>", { noremap = true, silent = true })
-                vim.keymap.set("n", "L", "<C-v>l:VBox<CR>", { noremap = true, silent = true })
-                vim.keymap.set("n", "H", "<C-v>h:VBox<CR>", { noremap = true, silent = true })
-                vim.keymap.set("v", "f", ":VBox<CR>", { noremap = true, silent = true })
+                vim.keymap.set("n", "<C-j>", "<C-v>j:VBox<CR>", { noremap = true, silent = true })
+                vim.keymap.set("n", "<C-k>", "<C-v>k:VBox<CR>", { noremap = true, silent = true })
+                vim.keymap.set("n", "<C-l>", "<C-v>l:VBox<CR>", { noremap = true, silent = true })
+                vim.keymap.set("n", "<C-h>", "<C-v>h:VBox<CR>", { noremap = true, silent = true })
+                vim.keymap.set("v", "<C-F>", ":VBox<CR>", { noremap = true, silent = true })
             else
                 vim.cmd("setlocal ve=")
 
-                vim.keymap.del("n", "J")
-                vim.keymap.del("n", "K")
-                vim.keymap.del("n", "L")
-                vim.keymap.del("n", "H")
-                vim.keymap.del("v", "f")
+                vim.keymap.del("n", "<C-j>")
+                vim.keymap.del("n", "<C-k>")
+                vim.keymap.del("n", "<C-l>")
+                vim.keymap.del("n", "<C-h>")
+                vim.keymap.del("v", "<C-F>")
 
                 vim.b.venn_enabled = false
             end
